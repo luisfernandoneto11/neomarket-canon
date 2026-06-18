@@ -1,0 +1,154 @@
+openapi: 3.0.3
+info:
+  title: NeoMarket Moderation
+  version: "1.0"
+  description: |
+    Модуль модерации товаров.
+
+    Логика работы:
+    1. Moderation узнаёт что товар создан или изменён (формат события — ???)
+    2. Запрашивает данные товара из B2B (GET /api/v1/products/{id})
+    3. Сохраняет снимок товара. Если товар изменён — два снимка: "до" и "после"
+    4. Модератор берёт карточку из очереди и проверяет
+    5. Одобряет или блокирует — и сообщает B2B (формат события — ???)
+
+paths:
+  /api/v1/events/product:
+    post:
+      summary: Получить событие товара от B2B
+      tags: [Events]
+      parameters:
+        - name: X-Service-Key
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Сервисный ключ для аутентификации B2B -> Moderation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - product_id
+                - seller_id
+                - event
+                - date
+              properties:
+                product_id:
+                  type: string
+                  format: uuid
+                  description: Идентификатор товара
+                seller_id:
+                  type: string
+                  format: uuid
+                  description: Идентификатор продавца
+                event:
+                  type: string
+                  enum: [CREATED, EDITED, DELETED]
+                  description: Тип события
+                date:
+                  type: string
+                  format: date-time
+                  description: Дата события в ISO8601
+              example:
+                product_id: "12345678-1234-5678-1234-567812345678"
+                seller_id: "87654321-4321-8765-4321-876543210987"
+                event: "CREATED"
+                date: "2024-01-15T10:30:00Z"
+      responses:
+        "200":
+          description: Событие обработано успешно
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  moderation_id:
+                    type: string
+                    format: uuid
+                  queue_priority:
+                    type: integer
+                    minimum: 1
+                    maximum: 4
+        "401":
+          description: Неверный сервисный ключ
+        "404":
+          description: Товар не найден в B2B
+        "501":
+          description: B2B API клиент не реализован
+
+  /api/v1/product-moderation/get-next:
+    post:
+      summary: Следующая карточка из очереди
+      tags: [Queue]
+      responses:
+        "200":
+          description: Карточка для проверки
+          content:
+            application/json:
+              schema:
+                type: object
+                # Формат ответа — проектируется
+        "204":
+          description: Очередь пуста
+
+  /api/v1/products/{id}/approve:
+    post:
+      summary: Одобрить товар
+      tags: [Decisions]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Товар одобрен, статус → MODERATED
+        "404":
+          description: Товар не найден в очереди
+
+  /api/v1/products/{id}/decline:
+    post:
+      summary: Заблокировать товар (с причиной)
+      tags: [Decisions]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              # Что нужно, чтобы продавец понял что исправить?
+              # Достаточно общей причины — или надо указать конкретные поля?
+      responses:
+        "200":
+          description: Товар заблокирован, статус → BLOCKED
+        "404":
+          description: Товар не найден в очереди
+
+  /api/v1/product-blocking-reasons:
+    get:
+      summary: Список причин блокировки
+      tags: [Reference]
+      responses:
+        "200":
+          description: Список причин
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  # Формат — проектируется

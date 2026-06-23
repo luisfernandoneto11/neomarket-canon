@@ -8,7 +8,7 @@ product events from B2B service.
 import os
 import uuid
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union
 
 from fastapi import APIRouter, Depends, Header, HTTPException, status
 from pydantic import BaseModel, Field
@@ -17,7 +17,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models.database import get_async_session
 from services.product_event_service import (
     check_idempotency,
-    fetch_product_from_b2b,
     process_created_event,
     process_deleted_event,
     process_edited_event,
@@ -30,6 +29,24 @@ B2B_SERVICE_KEY = os.getenv("B2B_SERVICE_KEY", "your-secret-key-here")
 
 
 # Request/Response Models
+class EventProductCreated(BaseModel):
+    """Payload for PRODUCT_CREATED event."""
+    
+    json_after: dict = Field(..., description="Product data from B2B")
+
+
+class EventProductEdited(BaseModel):
+    """Payload for PRODUCT_EDITED event."""
+    
+    json_after: dict = Field(..., description="Updated product data from B2B")
+
+
+class EventProductDeleted(BaseModel):
+    """Payload for PRODUCT_DELETED event."""
+    
+    json_after: dict = Field(..., description="Product data at deletion time from B2B")
+
+
 class ProductEventRequest(BaseModel):
     """Request model for product events from B2B."""
     
@@ -42,6 +59,9 @@ class ProductEventRequest(BaseModel):
     )
     occurred_at: datetime = Field(..., description="Event timestamp in ISO8601 format")
     idempotency_key: uuid.UUID = Field(..., description="Unique key for idempotency")
+    payload: Union[EventProductCreated, EventProductEdited, EventProductDeleted] = Field(
+        ..., description="Event payload containing product data"
+    )
     
     class Config:
         json_schema_extra = {
@@ -51,6 +71,13 @@ class ProductEventRequest(BaseModel):
                 "event_type": "PRODUCT_CREATED",
                 "occurred_at": "2024-01-15T10:30:00Z",
                 "idempotency_key": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "payload": {
+                    "json_after": {
+                        "name": "Product Name",
+                        "price": 100.0,
+                        "skus": []
+                    }
+                },
             }
         }
 
@@ -172,14 +199,8 @@ async def _handle_created_event(
     event_data: ProductEventRequest,
 ) -> ProductEventResponse:
     """Handle CREATED event."""
-    # Fetch product data from B2B
-    product_data = await fetch_product_from_b2b(event_data.product_id)
-    
-    if product_data is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Product {event_data.product_id} not found in B2B",
-        )
+    # Extract product data from payload
+    product_data = event_data.payload.json_after
     
     # Process created event
     moderation = await process_created_event(
@@ -205,14 +226,8 @@ async def _handle_edited_event(
     event_data: ProductEventRequest,
 ) -> ProductEventResponse:
     """Handle EDITED event."""
-    # Fetch updated product data from B2B
-    product_data = await fetch_product_from_b2b(event_data.product_id)
-    
-    if product_data is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Product {event_data.product_id} not found in B2B",
-        )
+    # Extract product data from payload
+    product_data = event_data.payload.json_after
     
     # Process edited event
     moderation = await process_edited_event(

@@ -123,7 +123,7 @@ async def verify_service_key(
 @router.post(
     "/events",
     response_model=ProductEventResponse,
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_202_ACCEPTED,
     summary="Receive product event from B2B",
     description="""
     Receive product events (CREATED, EDITED, DELETED) from B2B service.

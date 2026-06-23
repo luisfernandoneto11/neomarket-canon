@@ -1,5 +1,5 @@
 """
-Tests for POST /api/v1/events/product endpoint.
+Tests for POST /api/v1/b2b/events endpoint.
 
 Tests product event processing from B2B service.
 """
@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from httpx import AsyncClient
 from sqlalchemy import select
 
 from models.product_moderation import ProductModeration
@@ -35,26 +36,25 @@ class TestProductCreatedEvent:
         product_id = uuid.uuid4()
         seller_id = uuid.uuid4()
         event_date = datetime.utcnow()
+        idempotency_key = uuid.uuid4()
         
-        # Mock B2B API response
-        with patch(
-            "apis.moderation.events.fetch_product_from_b2b",
-            new_callable=AsyncMock,
-            return_value=sample_product_data,
-        ):
-            response = await client.post(
-                "/api/v1/events/product",
-                json={
-                    "product_id": str(product_id),
-                    "seller_id": str(seller_id),
-                    "event": "CREATED",
-                    "date": event_date.isoformat() + "Z",
+        response = await client.post(
+            "/api/v1/b2b/events",
+            json={
+                "product_id": str(product_id),
+                "seller_id": str(seller_id),
+                "event_type": "PRODUCT_CREATED",
+                "occurred_at": event_date.isoformat() + "Z",
+                "idempotency_key": str(idempotency_key),
+                "payload": {
+                    "json_after": sample_product_data,
                 },
-                headers={"X-Service-Key": service_key},
-            )
+            },
+            headers={"X-Service-Key": service_key},
+        )
         
         # Assert response
-        assert response.status_code == 200
+        assert response.status_code == 202
         data = response.json()
         assert data["success"] is True
         assert "created and queued" in data["message"]
@@ -74,6 +74,7 @@ class TestProductCreatedEvent:
         assert moderation.json_before is None  # No previous state for new products
         assert moderation.json_after == sample_product_data
         assert moderation.seller_id == seller_id
+        assert moderation.idempotency_key == idempotency_key
 
 
 class TestProductEditedEvent:
@@ -97,26 +98,25 @@ class TestProductEditedEvent:
         """
         original_moderation_id = moderated_product.id
         original_date_moderation = moderated_product.date_moderation
+        idempotency_key = uuid.uuid4()
         
-        # Mock B2B API response
-        with patch(
-            "apis.moderation.events.fetch_product_from_b2b",
-            new_callable=AsyncMock,
-            return_value=mock_b2b_product,
-        ):
-            response = await client.post(
-                "/api/v1/events/product",
-                json={
-                    "product_id": str(moderated_product.product_id),
-                    "seller_id": str(moderated_product.seller_id),
-                    "event": "EDITED",
-                    "date": datetime.utcnow().isoformat() + "Z",
+        response = await client.post(
+            "/api/v1/b2b/events",
+            json={
+                "product_id": str(moderated_product.product_id),
+                "seller_id": str(moderated_product.seller_id),
+                "event_type": "PRODUCT_EDITED",
+                "occurred_at": datetime.utcnow().isoformat() + "Z",
+                "idempotency_key": str(idempotency_key),
+                "payload": {
+                    "json_after": mock_b2b_product,
                 },
-                headers={"X-Service-Key": service_key},
-            )
+            },
+            headers={"X-Service-Key": service_key},
+        )
         
         # Assert response
-        assert response.status_code == 200
+        assert response.status_code == 202
         data = response.json()
         assert data["success"] is True
         assert "re-queued" in data["message"]
@@ -155,26 +155,25 @@ class TestProductEditedEvent:
         """
         original_moderation_id = in_review_product.id
         original_moderator = in_review_product.moderator_id
+        idempotency_key = uuid.uuid4()
         
-        # Mock B2B API response
-        with patch(
-            "apis.moderation.events.fetch_product_from_b2b",
-            new_callable=AsyncMock,
-            return_value=mock_b2b_product,
-        ):
-            response = await client.post(
-                "/api/v1/events/product",
-                json={
-                    "product_id": str(in_review_product.product_id),
-                    "seller_id": str(in_review_product.seller_id),
-                    "event": "EDITED",
-                    "date": datetime.utcnow().isoformat() + "Z",
+        response = await client.post(
+            "/api/v1/b2b/events",
+            json={
+                "product_id": str(in_review_product.product_id),
+                "seller_id": str(in_review_product.seller_id),
+                "event_type": "PRODUCT_EDITED",
+                "occurred_at": datetime.utcnow().isoformat() + "Z",
+                "idempotency_key": str(idempotency_key),
+                "payload": {
+                    "json_after": mock_b2b_product,
                 },
-                headers={"X-Service-Key": service_key},
-            )
+            },
+            headers={"X-Service-Key": service_key},
+        )
         
         # Assert response
-        assert response.status_code == 200
+        assert response.status_code == 202
         data = response.json()
         assert data["success"] is True
         
@@ -211,20 +210,25 @@ class TestProductDeletedEvent:
         Then: Record is deleted from database
         """
         product_id = moderated_product.product_id
+        idempotency_key = uuid.uuid4()
         
         response = await client.post(
-            "/api/v1/events/product",
+            "/api/v1/b2b/events",
             json={
                 "product_id": str(product_id),
                 "seller_id": str(moderated_product.seller_id),
-                "event": "DELETED",
-                "date": datetime.utcnow().isoformat() + "Z",
+                "event_type": "PRODUCT_DELETED",
+                "occurred_at": datetime.utcnow().isoformat() + "Z",
+                "idempotency_key": str(idempotency_key),
+                "payload": {
+                    "json_after": {},
+                },
             },
             headers={"X-Service-Key": service_key},
         )
         
         # Assert response
-        assert response.status_code == 200
+        assert response.status_code == 202
         data = response.json()
         assert data["success"] is True
         assert "deleted" in data["message"]
@@ -255,49 +259,52 @@ class TestIdempotency:
         
         Given: Event was already processed
         When: Same event is received again
-        Then: Returns 200 with idempotent message, no changes
+        Then: Returns 202 with idempotent message, no changes
         """
         product_id = uuid.uuid4()
         seller_id = uuid.uuid4()
         event_date = datetime.utcnow()
+        idempotency_key = uuid.uuid4()
         
-        # Mock B2B API response
-        with patch(
-            "apis.moderation.events.fetch_product_from_b2b",
-            new_callable=AsyncMock,
-            return_value=sample_product_data,
-        ):
-            # First request
-            response1 = await client.post(
-                "/api/v1/events/product",
-                json={
-                    "product_id": str(product_id),
-                    "seller_id": str(seller_id),
-                    "event": "CREATED",
-                    "date": event_date.isoformat() + "Z",
+        # First request
+        response1 = await client.post(
+            "/api/v1/b2b/events",
+            json={
+                "product_id": str(product_id),
+                "seller_id": str(seller_id),
+                "event_type": "PRODUCT_CREATED",
+                "occurred_at": event_date.isoformat() + "Z",
+                "idempotency_key": str(idempotency_key),
+                "payload": {
+                    "json_after": sample_product_data,
                 },
-                headers={"X-Service-Key": service_key},
-            )
-            
-            # Get moderation_id from first response
-            data1 = response1.json()
-            moderation_id = data1["moderation_id"]
-            
-            # Second request (duplicate)
-            response2 = await client.post(
-                "/api/v1/events/product",
-                json={
-                    "product_id": str(product_id),
-                    "seller_id": str(seller_id),
-                    "event": "CREATED",
-                    "date": event_date.isoformat() + "Z",
+            },
+            headers={"X-Service-Key": service_key},
+        )
+        
+        # Get moderation_id from first response
+        data1 = response1.json()
+        moderation_id = data1["moderation_id"]
+        
+        # Second request (duplicate - same idempotency_key)
+        response2 = await client.post(
+            "/api/v1/b2b/events",
+            json={
+                "product_id": str(product_id),
+                "seller_id": str(seller_id),
+                "event_type": "PRODUCT_CREATED",
+                "occurred_at": event_date.isoformat() + "Z",
+                "idempotency_key": str(idempotency_key),
+                "payload": {
+                    "json_after": sample_product_data,
                 },
-                headers={"X-Service-Key": service_key},
-            )
+            },
+            headers={"X-Service-Key": service_key},
+        )
         
         # Assert both responses are successful
-        assert response1.status_code == 200
-        assert response2.status_code == 200
+        assert response1.status_code == 202
+        assert response2.status_code == 202
         
         # Second response should indicate idempotent
         data2 = response2.json()
@@ -327,16 +334,20 @@ class TestAuthentication:
         Test that missing X-Service-Key header returns 401.
         
         Given: Request without X-Service-Key header
-        When: POST /api/v1/events/product is called
+        When: POST /api/v1/b2b/events is called
         Then: Returns 401 Unauthorized
         """
         response = await client.post(
-            "/api/v1/events/product",
+            "/api/v1/b2b/events",
             json={
                 "product_id": str(uuid.uuid4()),
                 "seller_id": str(uuid.uuid4()),
-                "event": "CREATED",
-                "date": datetime.utcnow().isoformat() + "Z",
+                "event_type": "PRODUCT_CREATED",
+                "occurred_at": datetime.utcnow().isoformat() + "Z",
+                "idempotency_key": str(uuid.uuid4()),
+                "payload": {
+                    "json_after": {},
+                },
             },
             # No X-Service-Key header
         )

@@ -1,7 +1,7 @@
 """
 Product Events Endpoint for NeoMarket Moderation Service.
 
-Handles POST /api/v1/events/product endpoint for receiving
+Handles POST /api/v1/b2b/events endpoint for receiving
 product events from B2B service.
 """
 
@@ -23,7 +23,7 @@ from services.product_event_service import (
     process_edited_event,
 )
 
-router = APIRouter(prefix="/api/v1/events", tags=["Events"])
+router = APIRouter(prefix="/api/v1/b2b", tags=["Events"])
 
 # Configuration
 B2B_SERVICE_KEY = os.getenv("B2B_SERVICE_KEY", "your-secret-key-here")
@@ -35,20 +35,20 @@ class ProductEventRequest(BaseModel):
     
     product_id: uuid.UUID = Field(..., description="Product UUID")
     seller_id: uuid.UUID = Field(..., description="Seller UUID")
-    event: str = Field(
+    event_type: str = Field(
         ...,
-        description="Event type: CREATED, EDITED, or DELETED",
-        regex="^(CREATED|EDITED|DELETED)$",
+        description="Event type: PRODUCT_CREATED, PRODUCT_EDITED, or PRODUCT_DELETED",
+        regex="^(PRODUCT_CREATED|PRODUCT_EDITED|PRODUCT_DELETED)$",
     )
-    date: datetime = Field(..., description="Event timestamp in ISO8601 format")
+    occurred_at: datetime = Field(..., description="Event timestamp in ISO8601 format")
     
     class Config:
         json_schema_extra = {
             "example": {
                 "product_id": "12345678-1234-5678-1234-567812345678",
                 "seller_id": "87654321-4321-8765-4321-876543210987",
-                "event": "CREATED",
-                "date": "2024-01-15T10:30:00Z",
+                "event_type": "PRODUCT_CREATED",
+                "occurred_at": "2024-01-15T10:30:00Z",
             }
         }
 
@@ -61,7 +61,7 @@ class ProductEventResponse(BaseModel):
     moderation_id: Optional[uuid.UUID] = Field(
         None, description="Moderation record ID (if applicable)"
     )
-queue_priority: Optional[int] = Field(
+    queue_priority: Optional[int] = Field(
         None, description="Queue priority (1-4, if applicable)"
     )
 
@@ -92,7 +92,7 @@ async def verify_service_key(
 
 # Event Processing Endpoint
 @router.post(
-    "/product",
+    "/events",
     response_model=ProductEventResponse,
     status_code=status.HTTP_200_OK,
     summary="Receive product event from B2B",
@@ -100,11 +100,11 @@ async def verify_service_key(
     Receive product events (CREATED, EDITED, DELETED) from B2B service.
     
     This endpoint processes product events and manages moderation records:
-    - **CREATED**: Creates new PENDING moderation record with queue_priority=1
-    - **EDITED**: Updates existing record, recalculates queue_priority, clears field reports
-    - **DELETED**: Removes moderation record
+    - **PRODUCT_CREATED**: Creates new PENDING moderation record with queue_priority=1
+    - **PRODUCT_EDITED**: Updates existing record, recalculates queue_priority, clears field reports
+    - **PRODUCT_DELETED**: Removes moderation record
     
-    Idempotency is ensured by (product_id, date) combination.
+    Idempotency is ensured by (product_id, occurred_at) combination.
     """,
 )
 async def receive_product_event(
@@ -126,7 +126,7 @@ async def receive_product_event(
     try:
         # Check idempotency - skip if already processed
         is_duplicate = await check_idempotency(
-            session, event_data.product_id, event_data.date
+            session, event_data.product_id, event_data.occurred_at
         )
         
         if is_duplicate:
@@ -136,16 +136,16 @@ async def receive_product_event(
             )
         
         # Process based on event type
-        if event_data.event == "CREATED":
+        if event_data.event_type == "PRODUCT_CREATED":
             return await _handle_created_event(session, event_data)
-        elif event_data.event == "EDITED":
+        elif event_data.event_type == "PRODUCT_EDITED":
             return await _handle_edited_event(session, event_data)
-        elif event_data.event == "DELETED":
+        elif event_data.event_type == "PRODUCT_DELETED":
             return await _handle_deleted_event(session, event_data)
         else:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Invalid event type: {event_data.event}",
+                detail=f"Invalid event type: {event_data.event_type}",
             )
     
     except HTTPException:

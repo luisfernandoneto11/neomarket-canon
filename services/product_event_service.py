@@ -157,6 +157,7 @@ async def process_created_event(
     product_id: uuid.UUID,
     seller_id: uuid.UUID,
     product_data: Dict[str, Any],
+    idempotency_key: uuid.UUID,
 ) -> ProductModeration:
     """
     Process CREATED event - create new PENDING moderation record.
@@ -166,6 +167,7 @@ async def process_created_event(
         product_id: Product UUID.
         seller_id: Seller UUID.
         product_data: Product data from B2B.
+        idempotency_key: Unique key for idempotency.
         
     Returns:
         Created ProductModeration record.
@@ -181,6 +183,7 @@ async def process_created_event(
         queue_priority=1,  # New products always priority 1
         json_before=None,  # No previous state for new products
         json_after=cleaned_data,
+        idempotency_key=idempotency_key,
     )
     
     session.add(moderation)
@@ -194,6 +197,7 @@ async def process_edited_event(
     product_id: uuid.UUID,
     seller_id: uuid.UUID,
     product_data: Dict[str, Any],
+    idempotency_key: uuid.UUID,
 ) -> Optional[ProductModeration]:
     """
     Process EDITED event - update existing record or create new one.
@@ -203,6 +207,7 @@ async def process_edited_event(
         product_id: Product UUID.
         seller_id: Seller UUID.
         product_data: Updated product data from B2B.
+        idempotency_key: Unique key for idempotency.
         
     Returns:
         Updated ProductModeration record or None if not found.
@@ -217,7 +222,7 @@ async def process_edited_event(
     if moderation is None:
         # No existing record, create new one
         return await process_created_event(
-            session, product_id, seller_id, product_data
+            session, product_id, seller_id, product_data, idempotency_key
         )
     
     # Strip private fields from new data
@@ -283,25 +288,22 @@ async def process_deleted_event(
 
 async def check_idempotency(
     session: AsyncSession,
-    product_id: uuid.UUID,
-    event_date: datetime,
+    idempotency_key: uuid.UUID,
 ) -> bool:
     """
     Check if event was already processed (idempotency check).
     
-    Uses (product_id, date) combination to detect duplicate events.
+    Uses idempotency_key for exact deduplication.
     
     Args:
         session: Database session.
-        product_id: Product UUID.
-        event_date: Event timestamp.
+        idempotency_key: Unique key for idempotency.
         
     Returns:
         True if event was already processed, False otherwise.
     """
     query = select(ProductModeration).where(
-        ProductModeration.product_id == product_id,
-        ProductModeration.date_updated >= event_date,
+        ProductModeration.idempotency_key == idempotency_key,
     )
     result = await session.execute(query)
     existing = result.scalar_one_or_none()

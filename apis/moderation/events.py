@@ -41,6 +41,7 @@ class ProductEventRequest(BaseModel):
         regex="^(PRODUCT_CREATED|PRODUCT_EDITED|PRODUCT_DELETED)$",
     )
     occurred_at: datetime = Field(..., description="Event timestamp in ISO8601 format")
+    idempotency_key: uuid.UUID = Field(..., description="Unique key for idempotency")
     
     class Config:
         json_schema_extra = {
@@ -49,6 +50,7 @@ class ProductEventRequest(BaseModel):
                 "seller_id": "87654321-4321-8765-4321-876543210987",
                 "event_type": "PRODUCT_CREATED",
                 "occurred_at": "2024-01-15T10:30:00Z",
+                "idempotency_key": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
             }
         }
 
@@ -126,7 +128,7 @@ async def receive_product_event(
     try:
         # Check idempotency - skip if already processed
         is_duplicate = await check_idempotency(
-            session, event_data.product_id, event_data.occurred_at
+            session, event_data.idempotency_key
         )
         
         if is_duplicate:
@@ -185,6 +187,7 @@ async def _handle_created_event(
         event_data.product_id,
         event_data.seller_id,
         product_data,
+        event_data.idempotency_key,
     )
     
     await session.commit()
@@ -217,6 +220,7 @@ async def _handle_edited_event(
         event_data.product_id,
         event_data.seller_id,
         product_data,
+        event_data.idempotency_key,
     )
     
     await session.commit()

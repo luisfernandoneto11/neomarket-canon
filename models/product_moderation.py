@@ -56,6 +56,14 @@ class ProductModeration(Base):
         comment="Идентификатор записи"
     )
     
+    # Idempotency key for deduplication
+    idempotency_key: Mapped[Optional[uuid.UUID]] = mapped_column(
+        UUID(as_uuid=True),
+        nullable=True,
+        unique=True,
+        comment="Chave de idempotência para deduplicação de eventos"
+    )
+    
     # Product and seller references
     product_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),

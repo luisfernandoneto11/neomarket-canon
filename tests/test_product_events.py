@@ -354,4 +354,5 @@ class TestAuthentication:
         
         assert response.status_code == 401
         data = response.json()
-        assert "Invalid service key" in data["detail"]
+        assert data["code"] == 401
+        assert "Invalid service key" in data["message"]

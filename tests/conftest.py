@@ -187,9 +187,20 @@ def service_key():
 @pytest_asyncio.fixture
 async def client(service_key: str) -> AsyncGenerator[AsyncClient, None]:
     """Create test HTTP client."""
-    from fastapi import FastAPI
+    from fastapi import FastAPI, Request, status
+    from fastapi.responses import JSONResponse
+    from fastapi.exceptions import HTTPException
     
     app = FastAPI()
+    
+    # Add global exception handler for HTTP exceptions
+    @app.exception_handler(HTTPException)
+    async def http_exception_handler(request: Request, exc: HTTPException):
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"code": exc.status_code, "message": exc.detail}
+        )
+    
     app.include_router(router)
     
     # Override the service key for testing

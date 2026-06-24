@@ -6,6 +6,7 @@ import asyncio
 import uuid
 from datetime import datetime, timedelta
 from typing import AsyncGenerator
+from unittest.mock import MagicMock, AsyncMock
 
 import pytest
 import pytest_asyncio
@@ -13,9 +14,12 @@ from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
 from models.base import Base
+from models.product import Product, SKU
 from models.product_moderation import ProductModeration
 from models.product_blocking_reasons import ProductBlockingReason, get_seed_blocking_reasons
-from apis.moderation.events import router
+from schemas.b2b_schemas import SKUCreateRequest
+from apis.moderation.events import router as moderation_router
+from apis.b2b.router import router as b2b_router
 
 # Test database URL - using SQLite for tests
 TEST_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
@@ -61,6 +65,85 @@ async def db_session(setup_database) -> AsyncGenerator[AsyncSession, None]:
         yield session
         # Clean up after test
         await session.rollback()
+
+
+@pytest_asyncio.fixture
+async def test_product(db_session: AsyncSession) -> Product:
+    """Create a test product in DRAFT status."""
+    product = Product(
+        name="Test Product",
+        description="A test product description",
+        status="DRAFT",
+    )
+    db_session.add(product)
+    await db_session.commit()
+    await db_session.refresh(product)
+    return product
+
+
+@pytest_asyncio.fixture
+async def test_product_hard_blocked(db_session: AsyncSession) -> Product:
+    """Create a test product in HARD_BLOCKED status."""
+    product = Product(
+        name="Hard Blocked Product",
+        description="A hard blocked product",
+        status="HARD_BLOCKED",
+    )
+    db_session.add(product)
+    await db_session.commit()
+    await db_session.refresh(product)
+    return product
+
+
+@pytest.fixture
+def test_sku_data() -> SKUCreateRequest:
+    """Valid SKU creation data."""
+    return SKUCreateRequest(
+        product_id=uuid.uuid4(),
+        sku_code="SKU001",
+        price=99.99,
+        image_url="https://example.com/product.jpg",
+        stock_quantity=10,
+    )
+
+
+@pytest.fixture
+def mock_moderation_client():
+    """Mock for the ModerationClient."""
+    mock = MagicMock()
+    mock.send_event = AsyncMock(return_value=True)
+    return mock
+
+
+@pytest.fixture
+def app():
+    """Create FastAPI app with all routers."""
+    from fastapi import FastAPI, Request
+    from fastapi.responses import JSONResponse
+    from fastapi.exceptions import HTTPException
+    
+    application = FastAPI()
+    
+    # Add global exception handler for HTTP exceptions
+    @application.exception_handler(HTTPException)
+    async def http_exception_handler(request: Request, exc: HTTPException):
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"code": exc.status_code, "message": exc.detail}
+        )
+    
+    application.include_router(moderation_router)
+    application.include_router(b2b_router)
+    
+    return application
+
+
+@pytest_asyncio.fixture
+async def client(app) -> AsyncGenerator[AsyncClient, None]:
+    """Create test HTTP client."""
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as test_client:
+        yield test_client
 
 
 @pytest_asyncio.fixture
@@ -182,35 +265,3 @@ def mock_b2b_product():
 def service_key():
     """Test service key."""
     return "test-service-key-123"
-
-
-@pytest_asyncio.fixture
-async def client(service_key: str) -> AsyncGenerator[AsyncClient, None]:
-    """Create test HTTP client."""
-    from fastapi import FastAPI, Request, status
-    from fastapi.responses import JSONResponse
-    from fastapi.exceptions import HTTPException
-    
-    app = FastAPI()
-    
-    # Add global exception handler for HTTP exceptions
-    @app.exception_handler(HTTPException)
-    async def http_exception_handler(request: Request, exc: HTTPException):
-        return JSONResponse(
-            status_code=exc.status_code,
-            content={"code": exc.status_code, "message": exc.detail}
-        )
-    
-    app.include_router(router)
-    
-    # Override the service key for testing
-    import apis.moderation.events as events_module
-    original_key = events_module.B2B_SERVICE_KEY
-    events_module.B2B_SERVICE_KEY = service_key
-    
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as client:
-        yield client
-    
-    # Restore original key
-    events_module.B2B_SERVICE_KEY = original_key

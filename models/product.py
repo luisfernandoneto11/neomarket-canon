@@ -14,6 +14,7 @@ from sqlalchemy import (
     ForeignKey,
     Numeric,
     Integer,
+    Boolean,
     CheckConstraint,
     UniqueConstraint,
     JSON,
@@ -88,6 +89,21 @@ class Product(Base):
         nullable=False,
         default="DRAFT",
         comment="DRAFT, ON_MODERATION, MODERATED, BLOCKED, HARD_BLOCKED"
+    )
+    
+    # Soft delete and catalog fields
+    deleted: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=False,
+        default=False,
+        comment="Soft delete flag"
+    )
+    
+    active_quantity: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        default=0,
+        comment="Total active stock quantity across all SKUs"
     )
     
     # Timestamps

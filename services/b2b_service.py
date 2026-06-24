@@ -178,17 +178,20 @@ class B2BService:
             product_id=sku_data.product_id,
             sku_code=sku_data.sku_code,
             price=sku_data.price,
-            image_url=str(sku_data.image_url) if sku_data.image_url else None,
+            image_url=str(sku_data.image_url),
             stock_quantity=sku_data.stock_quantity,
         )
         
         self.session.add(new_sku)
-        await self.session.flush()
-        await self.session.refresh(new_sku)
         
-        # Step 6: Send event to Moderation if first SKU
+        # Step 6: Transition product status and send event if first SKU
         if is_first:
+            # Transition product from DRAFT to ON_MODERATION
+            product.status = "ON_MODERATION"
             await self._send_first_sku_event(new_sku, product)
+        
+        await self.session.commit()
+        await self.session.refresh(new_sku)
         
         return SKUResponse.model_validate(new_sku)
     

@@ -16,12 +16,12 @@ from sqlalchemy import (
     Integer,
     CheckConstraint,
     UniqueConstraint,
+    JSON,
 )
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.sql import func
 
-from .base import Base
+from .base import Base, UUID
 
 
 class Product(Base):
@@ -47,6 +47,14 @@ class Product(Base):
         comment="Product identifier"
     )
     
+    # Seller reference
+    seller_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        nullable=False,
+        default=uuid.uuid4,
+        comment="Seller identifier"
+    )
+    
     # Product information
     name: Mapped[str] = mapped_column(
         String(255),
@@ -58,6 +66,20 @@ class Product(Base):
         String(2000),
         nullable=True,
         comment="Product description"
+    )
+    
+    # Moderation fields
+    blocking_reason: Mapped[Optional[dict]] = mapped_column(
+        JSON,
+        nullable=True,
+        comment="Blocking reason with title and description"
+    )
+    
+    field_reports: Mapped[Optional[list]] = mapped_column(
+        JSON,
+        nullable=True,
+        default=[],
+        comment="List of field reports with validation issues"
     )
     
     # Status

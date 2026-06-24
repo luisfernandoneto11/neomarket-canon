@@ -123,6 +123,7 @@ class TestProductEditedEvent:
         assert data["moderation_id"] == str(original_moderation_id)
         
         # Verify database record
+        db_session.expire_all()  # Clear cached data from service session
         query = select(ProductModeration).where(
             ProductModeration.id == original_moderation_id
         )
@@ -178,6 +179,7 @@ class TestProductEditedEvent:
         assert data["success"] is True
         
         # Verify database record
+        db_session.expire_all()  # Clear cached data from service session
         query = select(ProductModeration).where(
             ProductModeration.id == original_moderation_id
         )
@@ -185,7 +187,8 @@ class TestProductEditedEvent:
         moderation = result.scalar_one()
         
         assert moderation.status == "PENDING"
-        assert moderation.json_before == {"title": "Old Title"}  # Previous state
+        # json_before is the previous json_after from the in_review product
+        assert moderation.json_before == {"title": "New Title"}
         assert moderation.json_after == mock_b2b_product
         # Moderator info should be cleared for re-moderation
         assert moderation.moderator_id is None

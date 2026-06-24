@@ -9,10 +9,9 @@ import uuid
 from typing import List
 
 from sqlalchemy import Column, String, Boolean
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from .base import Base
+from .base import Base, UUID
 
 
 class ProductBlockingReason(Base):

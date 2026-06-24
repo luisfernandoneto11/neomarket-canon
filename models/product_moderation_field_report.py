@@ -17,11 +17,10 @@ from sqlalchemy import (
     Text,
     CheckConstraint,
 )
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.sql import func
 
-from .base import Base
+from .base import Base, UUID
 
 
 class ProductModerationFieldReport(Base):

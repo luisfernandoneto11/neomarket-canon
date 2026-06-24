@@ -37,8 +37,8 @@ class SKUCreateRequest(BaseModel):
         examples=[99.99]
     )
     
-    image_url: Optional[HttpUrl] = Field(
-        None,
+    image_url: HttpUrl = Field(
+        ...,
         description="URL to SKU image (must be valid URL)",
         examples=["https://example.com/product.jpg"]
     )

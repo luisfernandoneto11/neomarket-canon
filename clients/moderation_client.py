@@ -2,10 +2,10 @@
 Moderation Client for NeoMarket.
 
 Handles communication with the Moderation service for sending events.
-Uses synchronous HTTP calls with retry logic.
+Uses async HTTP calls with retry logic.
 """
 
-import time
+import asyncio
 import logging
 from typing import Optional
 
@@ -25,7 +25,7 @@ class ModerationClient:
     """
     Client for sending events to the Moderation service.
     
-    Uses synchronous HTTP calls with retry logic for reliability.
+    Uses async HTTP calls with retry logic for reliability.
     """
     
     def __init__(
@@ -52,9 +52,9 @@ class ModerationClient:
         self.max_retries = max_retries
         self.retry_delay = retry_delay
     
-    def send_event(self, event: ModerationEvent) -> bool:
+    async def send_event(self, event: ModerationEvent) -> bool:
         """
-        Send event to Moderation service.
+        Send event to Moderation service asynchronously.
         
         Uses retry logic for transient failures.
         
@@ -91,12 +91,12 @@ class ModerationClient:
                     f"(attempt {attempt}/{self.max_retries})"
                 )
                 
-                response = httpx.post(
-                    url,
-                    json=payload,
-                    headers=headers,
-                    timeout=self.timeout,
-                )
+                async with httpx.AsyncClient(timeout=self.timeout) as client:
+                    response = await client.post(
+                        url,
+                        json=payload,
+                        headers=headers,
+                    )
                 
                 if response.status_code == 200:
                     logger.info(
@@ -138,7 +138,7 @@ class ModerationClient:
             if attempt < self.max_retries:
                 delay = self.retry_delay * (2 ** (attempt - 1))  # Exponential backoff
                 logger.info(f"Retrying in {delay:.1f} seconds...")
-                time.sleep(delay)
+                await asyncio.sleep(delay)
         
         # All retries exhausted
         error_msg = (

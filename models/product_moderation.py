@@ -18,12 +18,12 @@ from sqlalchemy import (
     Text,
     CheckConstraint,
     UniqueConstraint,
+    JSON,
 )
-from sqlalchemy.dialects.postgresql import UUID, JSONB
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.sql import func
 
-from .base import Base
+from .base import Base, UUID
 
 
 class ProductModeration(Base):
@@ -95,13 +95,13 @@ class ProductModeration(Base):
     
     # Product data snapshots
     json_before: Mapped[Optional[dict]] = mapped_column(
-        JSONB,
+        JSON,
         nullable=True,
         comment="Состояние товара ДО изменений (null для новых)"
     )
     
     json_after: Mapped[dict] = mapped_column(
-        JSONB,
+        JSON,
         nullable=False,
         comment="Текущее состояние товара (GET /api/v1/products/{id} из B2B)"
     )

@@ -67,6 +67,5 @@ moderation = await process_created_event(
 
 ## Future Implementation
 
-- `fetch_product_from_b2b()` - HTTP client for B2B API (requires implementation)
 - Integration with external services for notifications
 - Metrics and monitoring hooks

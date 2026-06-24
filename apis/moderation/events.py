@@ -180,12 +180,6 @@ async def receive_product_event(
     except HTTPException:
         await session.rollback()
         raise
-    except NotImplementedError as e:
-        await session.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_501_NOT_IMPLEMENTED,
-            detail=str(e),
-        )
     except Exception as e:
         await session.rollback()
         raise HTTPException(

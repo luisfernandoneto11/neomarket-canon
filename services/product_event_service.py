@@ -130,28 +130,6 @@ def calculate_queue_priority(
         return 4
 
 
-async def fetch_product_from_b2b(product_id: uuid.UUID) -> Optional[Dict[str, Any]]:
-    """
-    Fetch product data from B2B API.
-    
-    In production, this would make an HTTP request to B2B service.
-    For now, returns a placeholder.
-    
-    Args:
-        product_id: UUID of the product to fetch.
-        
-    Returns:
-        Product data dictionary or None if not found.
-    """
-    # TODO: Implement actual HTTP call to B2B API
-    # Example: GET /api/v1/products/{product_id}
-    # This is a placeholder for the actual implementation
-    raise NotImplementedError(
-        "B2B API client not implemented. "
-        "This should call GET /api/v1/products/{product_id} from B2B service."
-    )
-
-
 async def process_created_event(
     session: AsyncSession,
     product_id: uuid.UUID,

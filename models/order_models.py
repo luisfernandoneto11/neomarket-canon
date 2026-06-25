@@ -26,13 +26,14 @@ from .base import Base, UUID
 
 class OrderStatus(str, SAEnum):
     """Order status lifecycle."""
-    PENDING = "PENDING"
+    CREATED = "CREATED"
     PAID = "PAID"
     PROCESSING = "PROCESSING"
     READY_TO_SHIP = "READY_TO_SHIP"
     SHIPPED = "SHIPPED"
     DELIVERED = "DELIVERED"
     CANCELLED = "CANCELLED"
+    CANCEL_PENDING = "CANCEL_PENDING"
 
 
 class Order(Base):
@@ -63,7 +64,7 @@ class Order(Base):
     status: Mapped[OrderStatus] = mapped_column(
         SAEnum(OrderStatus, values_callable=lambda x: [e.value for e in x]),
         nullable=False,
-        default=OrderStatus.PENDING,
+        default=OrderStatus.CREATED,
     )
 
     # Total amount in cents
@@ -92,6 +93,14 @@ class Order(Base):
         nullable=False,
         server_default=func.now(),
         onupdate=func.now(),
+    )
+
+    # Cancel pending tracking
+    cancel_pending_since: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+        default=None,
+        description="Timestamp when order entered CANCEL_PENDING state",
     )
 
     # Relationships

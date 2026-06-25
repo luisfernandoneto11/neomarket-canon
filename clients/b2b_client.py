@@ -275,3 +275,28 @@ class B2BClient:
         )
 
         return response
+
+    async def unreserve(self, request) -> Dict[str, Any]:
+        """
+        Unreserve stock for items (release reservation).
+
+        Calls B2B `POST /api/v1/unreserve` to release reserved stock for items.
+        Used when cancelling an order to return stock to available inventory.
+
+        Args:
+            request: UnreserveRequest with order_id and items.
+
+        Returns:
+            Dict with unreservation result.
+
+        Raises:
+            B2BClientError: If unreservation fails (4xx errors).
+            B2BServiceUnavailableError: If B2B service is down.
+        """
+        response = await self._request_with_retry(
+            method="POST",
+            path="/api/v1/unreserve",
+            json_data=request.model_dump(mode="json"),
+        )
+
+        return response

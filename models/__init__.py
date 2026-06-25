@@ -10,6 +10,7 @@ from .product_blocking_reasons import ProductBlockingReason
 from .moderation_event import ModerationEvent
 from .product import Product, SKU
 from .cart_models import Cart, CartItem
+from .order_models import Order, OrderItem
 
 __all__ = [
     "ProductModeration",
@@ -20,4 +21,6 @@ __all__ = [
     "SKU",
     "Cart",
     "CartItem",
+    "Order",
+    "OrderItem",
 ]

@@ -2,24 +2,27 @@
 Order schemas for B2C Order service.
 
 Defines request/response models for order creation from cart,
-including idempotency support and price snapshot at purchase time.
+including idempotency support and price snapshot at purchase time,
+and order cancellation.
 """
 
 from datetime import datetime
 from enum import Enum
 from typing import Optional
 from pydantic import BaseModel, Field
+from uuid import UUID
 
 
 class OrderStatus(str, Enum):
     """Order status lifecycle."""
-    PENDING = "PENDING"
+    CREATED = "CREATED"
     PAID = "PAID"
     PROCESSING = "PROCESSING"
     READY_TO_SHIP = "READY_TO_SHIP"
     SHIPPED = "SHIPPED"
     DELIVERED = "DELIVERED"
     CANCELLED = "CANCELLED"
+    CANCEL_PENDING = "CANCEL_PENDING"
 
 
 class CheckoutItem(BaseModel):
@@ -98,3 +101,14 @@ class OrderResponse(BaseModel):
         ...,
         description="Idempotency key used for this order"
     )
+
+
+class CancelOrderResponse(BaseModel):
+    """
+    Response for order cancellation.
+    
+    Returns the updated order status after cancellation attempt.
+    """
+    id: UUID = Field(..., description="Order UUID")
+    status: str = Field(..., description="Current order status after cancellation")
+    message: str = Field(..., description="Human-readable message about the cancellation")

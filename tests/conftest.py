@@ -22,6 +22,7 @@ from apis.moderation.events import router as moderation_router
 from apis.b2b.router import router as b2b_router
 from apis.b2b.products import router as products_router
 from apis.b2b.catalog import router as catalog_router
+from apis.b2b.moderation_events import router as moderation_events_router
 from models.database import get_async_session as original_get_async_session
 
 # Test database URL - using SQLite for tests
@@ -198,6 +199,7 @@ def app():
     application.include_router(b2b_router)
     application.include_router(products_router)
     application.include_router(catalog_router)
+    application.include_router(moderation_events_router)
     
     yield application
     

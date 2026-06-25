@@ -21,6 +21,13 @@ from .reserve_schemas import (
     UnreserveResponse,
 )
 
+from .moderation_event_schemas import (
+    FieldReport,
+    BlockingReason,
+    ModerationEventRequest,
+    ModerationEventResponse,
+)
+
 __all__ = [
     "SKUCreateRequest",
     "SKUResponse",
@@ -35,4 +42,8 @@ __all__ = [
     "FailedReserveItem",
     "UnreserveRequest",
     "UnreserveResponse",
+    "FieldReport",
+    "BlockingReason",
+    "ModerationEventRequest",
+    "ModerationEventResponse",
 ]

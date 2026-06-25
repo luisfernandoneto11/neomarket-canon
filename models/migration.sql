@@ -89,6 +89,15 @@ CREATE TABLE product_moderation_field_report (
         ON DELETE CASCADE
 );
 
+-- Table: moderation_events
+-- Description: Idempotency tracking for moderation decisions from B2B
+CREATE TABLE IF NOT EXISTS moderation_events (
+    idempotency_key UUID PRIMARY KEY,
+    product_id UUID NOT NULL,
+    processed_at TIMESTAMP NOT NULL DEFAULT now(),
+    result JSONB NOT NULL
+);
+
 -- Indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_product_moderation_product_id ON product_moderation(product_id);
 CREATE INDEX IF NOT EXISTS idx_product_moderation_seller_id ON product_moderation(seller_id);
@@ -99,6 +108,7 @@ CREATE INDEX IF NOT EXISTS idx_field_report_moderation_id ON product_moderation_
 CREATE INDEX IF NOT EXISTS idx_products_status ON products(status);
 CREATE INDEX IF NOT EXISTS idx_skus_product_id ON skus(product_id);
 CREATE INDEX IF NOT EXISTS idx_skus_sku_code ON skus(sku_code);
+CREATE INDEX IF NOT EXISTS idx_moderation_events_product_id ON moderation_events(product_id);
 
 -- Seed data for product_blocking_reasons
 INSERT INTO product_blocking_reasons (id, title, hard_block) VALUES

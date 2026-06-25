@@ -9,6 +9,7 @@ from .product_moderation_field_report import ProductModerationFieldReport
 from .product_blocking_reasons import ProductBlockingReason
 from .moderation_event import ModerationEvent
 from .product import Product, SKU
+from .cart_models import Cart, CartItem
 
 __all__ = [
     "ProductModeration",
@@ -17,4 +18,6 @@ __all__ = [
     "ModerationEvent",
     "Product",
     "SKU",
+    "Cart",
+    "CartItem",
 ]

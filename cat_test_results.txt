@@ -1,0 +1,149 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 15 items
+
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_catalog_returns_filtered_sorted_products FAILED [  6%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_pagination_works_with_limit_offset FAILED [ 13%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_search_returns_matching_products FAILED [ 20%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_in_stock_filter FAILED [ 26%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_price_range_filter FAILED [ 33%]
+tests\test_b2c_catalog.py::TestFacets::test_facets_return_counts_per_filter_value FAILED [ 40%]
+tests\test_b2c_catalog.py::TestFacets::test_facets_with_filters_applied FAILED [ 46%]
+tests\test_b2c_catalog.py::TestValidation::test_invalid_sort_returns_400 PASSED [ 53%]
+tests\test_b2c_catalog.py::TestValidation::test_invalid_category_uuid_returns_400 PASSED [ 60%]
+tests\test_b2c_catalog.py::TestValidation::test_invalid_price_range_returns_400 PASSED [ 66%]
+tests\test_b2c_catalog.py::TestB2BFailureHandling::test_b2b_unavailable_returns_502 PASSED [ 73%]
+tests\test_b2c_catalog.py::TestB2BFailureHandling::test_b2b_timeout_returns_502 PASSED [ 80%]
+tests\test_b2c_catalog.py::TestCatalogServiceUnit::test_get_catalog_passes_filters_to_b2b PASSED [ 86%]
+tests\test_b2c_catalog.py::TestCatalogServiceUnit::test_get_facets_aggregates_correctly PASSED [ 93%]
+tests\test_b2c_catalog.py::TestCatalogServiceUnit::test_map_to_list_item_extracts_correctly PASSED [100%]
+
+================================== FAILURES ===================================
+_ TestCatalogFilteringAndSorting.test_catalog_returns_filtered_sorted_products _
+tests\test_b2c_catalog.py:161: in test_catalog_returns_filtered_sorted_products
+    assert response.status_code == 200
+E   assert 400 == 200
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+___ TestCatalogFilteringAndSorting.test_pagination_works_with_limit_offset ____
+tests\test_b2c_catalog.py:203: in test_pagination_works_with_limit_offset
+    assert response.status_code == 200
+E   assert 502 == 200
+E    +  where 502 = <Response [502 Bad Gateway]>.status_code
+------------------------------ Captured log call ------------------------------
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 1/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 2/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 3/3: All connection attempts failed
+ERROR    clients.b2b_client:b2b_client.py:154 B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+ERROR    apis.b2c.catalog:catalog.py:144 B2B service unavailable during catalog fetch: B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+____ TestCatalogFilteringAndSorting.test_search_returns_matching_products _____
+tests\test_b2c_catalog.py:234: in test_search_returns_matching_products
+    assert response.status_code == 200
+E   assert 502 == 200
+E    +  where 502 = <Response [502 Bad Gateway]>.status_code
+------------------------------ Captured log call ------------------------------
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 1/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 2/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 3/3: All connection attempts failed
+ERROR    clients.b2b_client:b2b_client.py:154 B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+ERROR    apis.b2c.catalog:catalog.py:144 B2B service unavailable during catalog fetch: B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+_____________ TestCatalogFilteringAndSorting.test_in_stock_filter _____________
+tests\test_b2c_catalog.py:262: in test_in_stock_filter
+    assert response.status_code == 200
+E   assert 502 == 200
+E    +  where 502 = <Response [502 Bad Gateway]>.status_code
+------------------------------ Captured log call ------------------------------
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 1/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 2/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 3/3: All connection attempts failed
+ERROR    clients.b2b_client:b2b_client.py:154 B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+ERROR    apis.b2c.catalog:catalog.py:144 B2B service unavailable during catalog fetch: B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+___________ TestCatalogFilteringAndSorting.test_price_range_filter ____________
+tests\test_b2c_catalog.py:288: in test_price_range_filter
+    assert response.status_code == 200
+E   assert 502 == 200
+E    +  where 502 = <Response [502 Bad Gateway]>.status_code
+------------------------------ Captured log call ------------------------------
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 1/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 2/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 3/3: All connection attempts failed
+ERROR    clients.b2b_client:b2b_client.py:154 B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+ERROR    apis.b2c.catalog:catalog.py:144 B2B service unavailable during catalog fetch: B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+____________ TestFacets.test_facets_return_counts_per_filter_value ____________
+tests\test_b2c_catalog.py:324: in test_facets_return_counts_per_filter_value
+    assert response.status_code == 200
+E   assert 502 == 200
+E    +  where 502 = <Response [502 Bad Gateway]>.status_code
+------------------------------ Captured log call ------------------------------
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 1/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 2/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 3/3: All connection attempts failed
+ERROR    clients.b2b_client:b2b_client.py:154 B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+ERROR    apis.b2c.catalog:catalog.py:235 B2B service unavailable during facets fetch: B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+_________________ TestFacets.test_facets_with_filters_applied _________________
+tests\test_b2c_catalog.py:371: in test_facets_with_filters_applied
+    assert response.status_code == 200
+E   assert 400 == 200
+E    +  where 400 = <Response [400 Bad Request]>.status_code
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+schemas\catalog_filters_schemas.py:59
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_filters_schemas.py:59: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductListItem(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_catalog_returns_filtered_sorted_products - assert 400 == 200
+ +  where 400 = <Response [400 Bad Request]>.status_code
+FAILED tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_pagination_works_with_limit_offset - assert 502 == 200
+ +  where 502 = <Response [502 Bad Gateway]>.status_code
+FAILED tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_search_returns_matching_products - assert 502 == 200
+ +  where 502 = <Response [502 Bad Gateway]>.status_code
+FAILED tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_in_stock_filter - assert 502 == 200
+ +  where 502 = <Response [502 Bad Gateway]>.status_code
+FAILED tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_price_range_filter - assert 502 == 200
+ +  where 502 = <Response [502 Bad Gateway]>.status_code
+FAILED tests\test_b2c_catalog.py::TestFacets::test_facets_return_counts_per_filter_value - assert 502 == 200
+ +  where 502 = <Response [502 Bad Gateway]>.status_code
+FAILED tests\test_b2c_catalog.py::TestFacets::test_facets_with_filters_applied - assert 400 == 200
+ +  where 400 = <Response [400 Bad Request]>.status_code
+============= 7 failed, 8 passed, 10 warnings in 79.64s (0:01:19) =============

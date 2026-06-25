@@ -1,0 +1,245 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 23 items
+
+tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_sku_increments_quantity_if_already_in_cart FAILED [  4%]
+tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_item_with_quantity_zero_via_update_removes PASSED [  8%]
+tests\test_b2c_cart.py::TestGetEnrichedCart::test_get_cart_enriched_with_b2b_data ERROR [ 13%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_unavailable_sku_shown_with_reason PASSED [ 17%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_out_of_stock_sku_shown_with_reason FAILED [ 21%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_blocked_product_sku_shown_with_reason FAILED [ 26%]
+tests\test_b2c_cart.py::TestMergeCart::test_guest_cart_merged_on_login PASSED [ 30%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_cart_guest_only_new_sku FAILED [ 34%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_requires_bearer_token PASSED [ 39%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_requires_session_id PASSED [ 43%]
+tests\test_b2c_cart.py::TestRemoveAndClear::test_remove_item PASSED      [ 47%]
+tests\test_b2c_cart.py::TestRemoveAndClear::test_clear_cart FAILED       [ 52%]
+tests\test_b2c_cart.py::TestIDORProtection::test_cannot_access_other_user_cart PASSED [ 56%]
+tests\test_b2c_cart.py::TestIDORProtection::test_session_cart_not_accessible_by_other_session PASSED [ 60%]
+tests\test_b2c_cart.py::TestIDORProtection::test_authentication_required PASSED [ 65%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_or_create_cart_by_session PASSED [ 69%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_or_create_cart_by_user FAILED [ 73%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_existing_cart PASSED [ 78%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_add_new_item PASSED    [ 82%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_add_existing_item_increments PASSED [ 86%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_update_item PASSED     [ 91%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_update_item_zero_removes PASSED [ 95%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_remove_item PASSED     [100%]
+
+=================================== ERRORS ====================================
+_ ERROR at setup of TestGetEnrichedCart.test_get_cart_enriched_with_b2b_data __
+tests\test_b2c_cart.py:91: in test_product_moderated
+    sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+================================== FAILURES ===================================
+_ TestAddItemIncrementsQuantity.test_add_sku_increments_quantity_if_already_in_cart _
+tests\test_b2c_cart.py:139: in test_add_sku_increments_quantity_if_already_in_cart
+    assert data1["total_items"] == 1
+E   assert 0 == 1
+________ TestUnavailableReason.test_out_of_stock_sku_shown_with_reason ________
+tests\test_b2c_cart.py:297: in test_out_of_stock_sku_shown_with_reason
+    sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+______ TestUnavailableReason.test_blocked_product_sku_shown_with_reason _______
+tests\test_b2c_cart.py:350: in test_blocked_product_sku_shown_with_reason
+    sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+______________ TestMergeCart.test_merge_cart_guest_only_new_sku _______________
+tests\test_b2c_cart.py:458: in test_merge_cart_guest_only_new_sku
+    assert len(data["items"]) == 1
+E   assert 0 == 1
+E    +  where 0 = len([])
+_____________________ TestRemoveAndClear.test_clear_cart ______________________
+tests\test_b2c_cart.py:548: in test_clear_cart
+    response = await cart_client.delete(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1955: in delete
+    return await self.request(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1533: in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1620: in send
+    response = await self._send_handling_auth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1648: in _send_handling_auth
+    response = await self._send_handling_redirects(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1685: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1722: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\asgi.py:162: in handle_async_request
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:278: in app
+    raw_response = await run_endpoint_function(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:191: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apis\b2c\cart.py:286: in clear_cart
+    for item in list(cart.items):
+                     ^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\attributes.py:569: in __get__
+    return self.impl.get(state, dict_)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\attributes.py:1096: in get
+    value = self._fire_loader_callables(state, key, passive)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\attributes.py:1131: in _fire_loader_callables
+    return self.callable_(state, passive)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\strategies.py:978: in _load_for_state
+    return self._emit_lazyload(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\strategies.py:1141: in _emit_lazyload
+    result = session.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:2366: in _handle_dbapi_exception
+    raise exc_info[1].with_traceback(exc_info[2])
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:157: in execute
+    _cursor: AsyncIODBAPICursor = self.await_(self._connection.cursor())  # type: ignore[arg-type] # noqa: E501
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:123: in await_only
+    raise exc.MissingGreenlet(
+E   sqlalchemy.exc.MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)
+_____________ TestCartServiceUnit.test_get_or_create_cart_by_user _____________
+tests\test_b2c_cart.py:663: in test_get_or_create_cart_by_user
+    assert cart.user_id == user_id
+E   AssertionError: assert UUID('39f8c53d-daa1-4e2c-affb-6e43a355615c') == '39f8c53d-daa1-4e2c-affb-6e43a355615c'
+E    +  where UUID('39f8c53d-daa1-4e2c-affb-6e43a355615c') = <Cart(id=1dea3363-119e-4226-85fa-cfa6e99ecd2d, user_id=39f8c53d-daa1-4e2c-affb-6e43a355615c, session_id=None)>.user_id
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_sku_increments_quantity_if_already_in_cart - assert 0 == 1
+FAILED tests\test_b2c_cart.py::TestUnavailableReason::test_out_of_stock_sku_shown_with_reason - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2c_cart.py::TestUnavailableReason::test_blocked_product_sku_shown_with_reason - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2c_cart.py::TestMergeCart::test_merge_cart_guest_only_new_sku - assert 0 == 1
+ +  where 0 = len([])
+FAILED tests\test_b2c_cart.py::TestRemoveAndClear::test_clear_cart - sqlalchemy.exc.MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (Background on this error at: https://sqlalche.me/e/20/xd2s)
+FAILED tests\test_b2c_cart.py::TestCartServiceUnit::test_get_or_create_cart_by_user - AssertionError: assert UUID('39f8c53d-daa1-4e2c-affb-6e43a355615c') == '39f8c53d-daa1-4e2c-affb-6e43a355615c'
+ +  where UUID('39f8c53d-daa1-4e2c-affb-6e43a355615c') = <Cart(id=1dea3363-119e-4226-85fa-cfa6e99ecd2d, user_id=39f8c53d-daa1-4e2c-affb-6e43a355615c, session_id=None)>.user_id
+ERROR tests\test_b2c_cart.py::TestGetEnrichedCart::test_get_cart_enriched_with_b2b_data - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+============== 6 failed, 16 passed, 9 warnings, 1 error in 6.80s ==============

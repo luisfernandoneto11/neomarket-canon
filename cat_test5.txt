@@ -1,0 +1,68 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 15 items
+
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_catalog_returns_filtered_sorted_products PASSED [  6%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_pagination_works_with_limit_offset PASSED [ 13%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_search_returns_matching_products PASSED [ 20%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_in_stock_filter PASSED [ 26%]
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_price_range_filter PASSED [ 33%]
+tests\test_b2c_catalog.py::TestFacets::test_facets_return_counts_per_filter_value PASSED [ 40%]
+tests\test_b2c_catalog.py::TestFacets::test_facets_with_filters_applied PASSED [ 46%]
+tests\test_b2c_catalog.py::TestValidation::test_invalid_sort_returns_400 PASSED [ 53%]
+tests\test_b2c_catalog.py::TestValidation::test_invalid_category_uuid_returns_400 PASSED [ 60%]
+tests\test_b2c_catalog.py::TestValidation::test_invalid_price_range_returns_400 PASSED [ 66%]
+tests\test_b2c_catalog.py::TestB2BFailureHandling::test_b2b_unavailable_returns_502 PASSED [ 73%]
+tests\test_b2c_catalog.py::TestB2BFailureHandling::test_b2b_timeout_returns_502 PASSED [ 80%]
+tests\test_b2c_catalog.py::TestCatalogServiceUnit::test_get_catalog_passes_filters_to_b2b PASSED [ 86%]
+tests\test_b2c_catalog.py::TestCatalogServiceUnit::test_get_facets_aggregates_correctly PASSED [ 93%]
+tests\test_b2c_catalog.py::TestCatalogServiceUnit::test_map_to_list_item_extracts_correctly PASSED [100%]
+
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+schemas\catalog_filters_schemas.py:59
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_filters_schemas.py:59: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductListItem(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 15 passed, 10 warnings in 3.83s =======================

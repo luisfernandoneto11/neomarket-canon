@@ -1,0 +1,100 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_pagination_works_with_limit_offset FAILED
+
+================================== FAILURES ===================================
+___ TestCatalogFilteringAndSorting.test_pagination_works_with_limit_offset ____
+
+self = <tests.test_b2c_catalog.TestCatalogFilteringAndSorting object at 0x00000247B1ADA210>
+catalog_client = <httpx.AsyncClient object at 0x00000247B1B50590>
+catalog_app = <fastapi.applications.FastAPI object at 0x00000247B1A5B8C0>
+
+    async def test_pagination_works_with_limit_offset(
+        self,
+        catalog_client: AsyncClient,
+        catalog_app,
+    ):
+        """
+        Verify limit and offset parameters are forwarded and paginated correctly.
+        """
+        all_products = [
+            _make_b2b_product(str(uuid.uuid4()), f"Product {i}", min_price=10.0 + i, max_price=20.0 + i)
+            for i in range(30)
+        ]
+        mock_response = _build_mock_b2b_response(all_products[:10], total=30, limit=10, offset=0)
+    
+        with patch(
+            "apis.b2c.catalog.B2BClient"
+        ) as MockB2BClientClass:
+            mock_instance = MockB2BClientClass.return_value
+            mock_instance.get_products = AsyncMock(return_value=mock_response)
+    
+            response = await catalog_client.get(
+                "/api/v1/b2c/products",
+                params={"limit": 10, "offset": 0},
+            )
+    
+>       assert response.status_code == 200
+E       assert 502 == 200
+E        +  where 502 = <Response [502 Bad Gateway]>.status_code
+
+tests\test_b2c_catalog.py:203: AssertionError
+------------------------------ Captured log call ------------------------------
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 1/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 2/3: All connection attempts failed
+WARNING  clients.b2b_client:b2b_client.py:133 B2B connection error on attempt 3/3: All connection attempts failed
+ERROR    clients.b2b_client:b2b_client.py:154 B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+ERROR    apis.b2c.catalog:catalog.py:144 B2B service unavailable during catalog fetch: B2B request failed after 3 attempts: B2B service unreachable: All connection attempts failed
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+schemas\catalog_filters_schemas.py:59
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_filters_schemas.py:59: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductListItem(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_b2c_catalog.py::TestCatalogFilteringAndSorting::test_pagination_works_with_limit_offset - assert 502 == 200
+ +  where 502 = <Response [502 Bad Gateway]>.status_code
+======================= 1 failed, 10 warnings in 11.55s =======================

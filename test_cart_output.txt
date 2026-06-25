@@ -1,0 +1,86 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 23 items
+
+tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_sku_increments_quantity_if_already_in_cart PASSED [  4%]
+tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_item_with_quantity_zero_via_update_removes PASSED [  8%]
+tests\test_b2c_cart.py::TestGetEnrichedCart::test_get_cart_enriched_with_b2b_data PASSED [ 13%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_unavailable_sku_shown_with_reason FAILED [ 17%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_out_of_stock_sku_shown_with_reason PASSED [ 21%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_blocked_product_sku_shown_with_reason PASSED [ 26%]
+tests\test_b2c_cart.py::TestMergeCart::test_guest_cart_merged_on_login PASSED [ 30%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_cart_guest_only_new_sku FAILED [ 34%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_requires_bearer_token PASSED [ 39%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_requires_session_id PASSED [ 43%]
+tests\test_b2c_cart.py::TestRemoveAndClear::test_remove_item PASSED      [ 47%]
+tests\test_b2c_cart.py::TestRemoveAndClear::test_clear_cart PASSED       [ 52%]
+tests\test_b2c_cart.py::TestIDORProtection::test_cannot_access_other_user_cart PASSED [ 56%]
+tests\test_b2c_cart.py::TestIDORProtection::test_session_cart_not_accessible_by_other_session PASSED [ 60%]
+tests\test_b2c_cart.py::TestIDORProtection::test_authentication_required PASSED [ 65%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_or_create_cart_by_session PASSED [ 69%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_or_create_cart_by_user PASSED [ 73%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_existing_cart PASSED [ 78%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_add_new_item PASSED    [ 82%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_add_existing_item_increments PASSED [ 86%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_update_item PASSED     [ 91%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_update_item_zero_removes PASSED [ 95%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_remove_item PASSED     [100%]
+
+================================== FAILURES ===================================
+________ TestUnavailableReason.test_unavailable_sku_shown_with_reason _________
+tests\test_b2c_cart.py:275: in test_unavailable_sku_shown_with_reason
+    assert data["total_items"] == 0
+E   assert 1 == 0
+______________ TestMergeCart.test_merge_cart_guest_only_new_sku _______________
+tests\test_b2c_cart.py:464: in test_merge_cart_guest_only_new_sku
+    assert len(data["items"]) == 1
+E   assert 0 == 1
+E    +  where 0 = len([])
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_b2c_cart.py::TestUnavailableReason::test_unavailable_sku_shown_with_reason - assert 1 == 0
+FAILED tests\test_b2c_cart.py::TestMergeCart::test_merge_cart_guest_only_new_sku - assert 0 == 1
+ +  where 0 = len([])
+================== 2 failed, 21 passed, 9 warnings in 5.62s ===================

@@ -313,3 +313,43 @@ class SKU(Base):
         """Restore stock (e.g., after unreserve, return to active)."""
         self.active_quantity += quantity
         self.on_hand += quantity
+
+
+class ReserveOperation(Base):
+    """
+    Reserve operation for idempotency tracking.
+    
+    Stores reservation results to prevent duplicate reservations.
+    """
+    
+    __tablename__ = "reserve_operations"
+    
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        comment="Operation identifier"
+    )
+    
+    idempotency_key: Mapped[str] = mapped_column(
+        String(255),
+        unique=True,
+        nullable=False,
+        comment="Unique key for idempotency"
+    )
+    
+    result: Mapped[Optional[str]] = mapped_column(
+        JSON,
+        nullable=True,
+        comment="Cached result as JSON"
+    )
+    
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+        comment="Creation timestamp"
+    )
+    
+    def __repr__(self) -> str:
+        return f"<ReserveOperation(id={self.id}, idempotency_key={self.idempotency_key})>"

@@ -1,0 +1,931 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 1 item
+
+tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_sku_increments_quantity_if_already_in_cart FAILED [100%]
+
+================================== FAILURES ===================================
+_ TestAddItemIncrementsQuantity.test_add_sku_increments_quantity_if_already_in_cart _
+
+self = <tests.test_b2c_cart.TestAddItemIncrementsQuantity object at 0x00000298105FA0D0>
+cart_client = <httpx.AsyncClient object at 0x0000029810694AD0>
+cart_app = <fastapi.applications.FastAPI object at 0x000002981059BA10>
+
+    @pytest.mark.asyncio
+    async def test_add_sku_increments_quantity_if_already_in_cart(
+        self,
+        cart_client: AsyncClient,
+        cart_app,
+    ):
+        """
+        Adding the same SKU twice should increment quantity to 2 (not create duplicate).
+        """
+        session_id = str(uuid.uuid4())
+        sku_id = str(uuid.uuid4())
+    
+        # Add SKU first time
+>       response1 = await cart_client.post(
+            "/api/v1/b2c/cart/items",
+            json={"sku_id": sku_id, "quantity": 1},
+            headers={"X-Session-Id": session_id},
+        )
+
+tests\test_b2c_cart.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <httpx.AsyncClient object at 0x0000029810694AD0>
+url = '/api/v1/b2c/cart/items', content = None, data = None, files = None
+json = {'sku_id': 'c3fc4a22-fe9d-42f8-a3a9-b17ca647c814', 'quantity': 1}
+params = None
+headers = {'X-Session-Id': 'e002b402-bed4-4435-b90a-d4113bbdfb6a'}
+cookies = None
+auth = <httpx._client.UseClientDefault object at 0x000002980DB0A900>
+follow_redirects = <httpx._client.UseClientDefault object at 0x000002980DB0A900>
+timeout = <httpx._client.UseClientDefault object at 0x000002980DB0A900>
+extensions = None
+
+    async def post(
+        self,
+        url: URLTypes,
+        *,
+        content: typing.Optional[RequestContent] = None,
+        data: typing.Optional[RequestData] = None,
+        files: typing.Optional[RequestFiles] = None,
+        json: typing.Optional[typing.Any] = None,
+        params: typing.Optional[QueryParamTypes] = None,
+        headers: typing.Optional[HeaderTypes] = None,
+        cookies: typing.Optional[CookieTypes] = None,
+        auth: typing.Union[AuthTypes, UseClientDefault] = USE_CLIENT_DEFAULT,
+        follow_redirects: typing.Union[bool, UseClientDefault] = USE_CLIENT_DEFAULT,
+        timeout: typing.Union[TimeoutTypes, UseClientDefault] = USE_CLIENT_DEFAULT,
+        extensions: typing.Optional[RequestExtensions] = None,
+    ) -> Response:
+        """
+        Send a `POST` request.
+    
+        **Parameters**: See `httpx.request`.
+        """
+>       return await self.request(
+            "POST",
+            url,
+            content=content,
+            data=data,
+            files=files,
+            json=json,
+            params=params,
+            headers=headers,
+            cookies=cookies,
+            auth=auth,
+            follow_redirects=follow_redirects,
+            timeout=timeout,
+            extensions=extensions,
+        )
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1848: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <httpx.AsyncClient object at 0x0000029810694AD0>, method = 'POST'
+url = '/api/v1/b2c/cart/items', content = None, data = None, files = None
+json = {'sku_id': 'c3fc4a22-fe9d-42f8-a3a9-b17ca647c814', 'quantity': 1}
+params = None
+headers = {'X-Session-Id': 'e002b402-bed4-4435-b90a-d4113bbdfb6a'}
+cookies = None
+auth = <httpx._client.UseClientDefault object at 0x000002980DB0A900>
+follow_redirects = <httpx._client.UseClientDefault object at 0x000002980DB0A900>
+timeout = <httpx._client.UseClientDefault object at 0x000002980DB0A900>
+extensions = None
+
+    async def request(
+        self,
+        method: str,
+        url: URLTypes,
+        *,
+        content: typing.Optional[RequestContent] = None,
+        data: typing.Optional[RequestData] = None,
+        files: typing.Optional[RequestFiles] = None,
+        json: typing.Optional[typing.Any] = None,
+        params: typing.Optional[QueryParamTypes] = None,
+        headers: typing.Optional[HeaderTypes] = None,
+        cookies: typing.Optional[CookieTypes] = None,
+        auth: typing.Union[AuthTypes, UseClientDefault, None] = USE_CLIENT_DEFAULT,
+        follow_redirects: typing.Union[bool, UseClientDefault] = USE_CLIENT_DEFAULT,
+        timeout: typing.Union[TimeoutTypes, UseClientDefault] = USE_CLIENT_DEFAULT,
+        extensions: typing.Optional[RequestExtensions] = None,
+    ) -> Response:
+        """
+        Build and send a request.
+    
+        Equivalent to:
+    
+        ```python
+        request = client.build_request(...)
+        response = await client.send(request, ...)
+        ```
+    
+        See `AsyncClient.build_request()`, `AsyncClient.send()`
+        and [Merging of configuration][0] for how the various parameters
+        are merged with client-level configuration.
+    
+        [0]: /advanced/#merging-of-configuration
+        """
+        request = self.build_request(
+            method=method,
+            url=url,
+            content=content,
+            data=data,
+            files=files,
+            json=json,
+            params=params,
+            headers=headers,
+            cookies=cookies,
+            timeout=timeout,
+            extensions=extensions,
+        )
+>       return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1533: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <httpx.AsyncClient object at 0x0000029810694AD0>
+request = <Request('POST', 'http://test/api/v1/b2c/cart/items')>, stream = False
+auth = <httpx.Auth object at 0x00000298106956A0>, follow_redirects = False
+
+    async def send(
+        self,
+        request: Request,
+        *,
+        stream: bool = False,
+        auth: typing.Union[AuthTypes, UseClientDefault, None] = USE_CLIENT_DEFAULT,
+        follow_redirects: typing.Union[bool, UseClientDefault] = USE_CLIENT_DEFAULT,
+    ) -> Response:
+        """
+        Send a request.
+    
+        The request is sent as-is, unmodified.
+    
+        Typically you'll want to build one with `AsyncClient.build_request()`
+        so that any client-level configuration is merged into the request,
+        but passing an explicit `httpx.Request()` is supported as well.
+    
+        See also: [Request instances][0]
+    
+        [0]: /advanced/#request-instances
+        """
+        if self._state == ClientState.CLOSED:
+            raise RuntimeError("Cannot send a request, as the client has been closed.")
+    
+        self._state = ClientState.OPENED
+        follow_redirects = (
+            self.follow_redirects
+            if isinstance(follow_redirects, UseClientDefault)
+            else follow_redirects
+        )
+    
+        auth = self._build_request_auth(request, auth)
+    
+>       response = await self._send_handling_auth(
+            request,
+            auth=auth,
+            follow_redirects=follow_redirects,
+            history=[],
+        )
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1620: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <httpx.AsyncClient object at 0x0000029810694AD0>
+request = <Request('POST', 'http://test/api/v1/b2c/cart/items')>
+auth = <httpx.Auth object at 0x00000298106956A0>, follow_redirects = False
+history = []
+
+    async def _send_handling_auth(
+        self,
+        request: Request,
+        auth: Auth,
+        follow_redirects: bool,
+        history: typing.List[Response],
+    ) -> Response:
+        auth_flow = auth.async_auth_flow(request)
+        try:
+            request = await auth_flow.__anext__()
+    
+            while True:
+>               response = await self._send_handling_redirects(
+                    request,
+                    follow_redirects=follow_redirects,
+                    history=history,
+                )
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1648: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <httpx.AsyncClient object at 0x0000029810694AD0>
+request = <Request('POST', 'http://test/api/v1/b2c/cart/items')>
+follow_redirects = False, history = []
+
+    async def _send_handling_redirects(
+        self,
+        request: Request,
+        follow_redirects: bool,
+        history: typing.List[Response],
+    ) -> Response:
+        while True:
+            if len(history) > self.max_redirects:
+                raise TooManyRedirects(
+                    "Exceeded maximum allowed redirects.", request=request
+                )
+    
+            for hook in self._event_hooks["request"]:
+                await hook(request)
+    
+>           response = await self._send_single_request(request)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1685: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <httpx.AsyncClient object at 0x0000029810694AD0>
+request = <Request('POST', 'http://test/api/v1/b2c/cart/items')>
+
+    async def _send_single_request(self, request: Request) -> Response:
+        """
+        Sends a single request, without handling any redirections.
+        """
+        transport = self._transport_for_url(request.url)
+        timer = Timer()
+        await timer.async_start()
+    
+        if not isinstance(request.stream, AsyncByteStream):
+            raise RuntimeError(
+                "Attempted to send an sync request with an AsyncClient instance."
+            )
+    
+        with request_context(request=request):
+>           response = await transport.handle_async_request(request)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1722: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <httpx.ASGITransport object at 0x000002981059BE00>
+request = <Request('POST', 'http://test/api/v1/b2c/cart/items')>
+
+    async def handle_async_request(
+        self,
+        request: Request,
+    ) -> Response:
+        assert isinstance(request.stream, AsyncByteStream)
+    
+        # ASGI scope.
+        scope = {
+            "type": "http",
+            "asgi": {"version": "3.0"},
+            "http_version": "1.1",
+            "method": request.method,
+            "headers": [(k.lower(), v) for (k, v) in request.headers.raw],
+            "scheme": request.url.scheme,
+            "path": request.url.path,
+            "raw_path": request.url.raw_path,
+            "query_string": request.url.query,
+            "server": (request.url.host, request.url.port),
+            "client": self.client,
+            "root_path": self.root_path,
+        }
+    
+        # Request.
+        request_body_chunks = request.stream.__aiter__()
+        request_complete = False
+    
+        # Response.
+        status_code = None
+        response_headers = None
+        body_parts = []
+        response_started = False
+        response_complete = create_event()
+    
+        # ASGI callables.
+    
+        async def receive() -> typing.Dict[str, typing.Any]:
+            nonlocal request_complete
+    
+            if request_complete:
+                await response_complete.wait()
+                return {"type": "http.disconnect"}
+    
+            try:
+                body = await request_body_chunks.__anext__()
+            except StopAsyncIteration:
+                request_complete = True
+                return {"type": "http.request", "body": b"", "more_body": False}
+            return {"type": "http.request", "body": body, "more_body": True}
+    
+        async def send(message: typing.Dict[str, typing.Any]) -> None:
+            nonlocal status_code, response_headers, response_started
+    
+            if message["type"] == "http.response.start":
+                assert not response_started
+    
+                status_code = message["status"]
+                response_headers = message.get("headers", [])
+                response_started = True
+    
+            elif message["type"] == "http.response.body":
+                assert not response_complete.is_set()
+                body = message.get("body", b"")
+                more_body = message.get("more_body", False)
+    
+                if body and request.method != "HEAD":
+                    body_parts.append(body)
+    
+                if not more_body:
+                    response_complete.set()
+    
+        try:
+>           await self.app(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\asgi.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <fastapi.applications.FastAPI object at 0x000002981059BA10>
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function ASGITransport.handle_async_request.<locals>.send at 0x0000029810662160>
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if self.root_path:
+            scope["root_path"] = self.root_path
+>       await super().__call__(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:1054: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <fastapi.applications.FastAPI object at 0x000002981059BA10>
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function ASGITransport.handle_async_request.<locals>.send at 0x0000029810662160>
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        scope["app"] = self
+        if self.middleware_stack is None:
+            self.middleware_stack = self.build_middleware_stack()
+>       await self.middleware_stack(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\applications.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000029810695BE0>
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function ASGITransport.handle_async_request.<locals>.send at 0x0000029810662160>
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+    
+        response_started = False
+    
+        async def _send(message: Message) -> None:
+            nonlocal response_started, send
+    
+            if message["type"] == "http.response.start":
+                response_started = True
+            await send(message)
+    
+        try:
+            await self.app(scope, receive, _send)
+        except Exception as exc:
+            request = Request(scope)
+            if self.debug:
+                # In debug mode, return traceback responses.
+                response = self.debug_response(request, exc)
+            elif self.handler is None:
+                # Use our default 500 error handler.
+                response = self.error_response(request, exc)
+            else:
+                # Use an installed 500 error handler.
+                if is_async_callable(self.handler):
+                    response = await self.handler(request, exc)
+                else:
+                    response = await run_in_threadpool(self.handler, request, exc)
+    
+            if not response_started:
+                await response(scope, receive, send)
+    
+            # We always continue to raise the exception.
+            # This allows servers to log the error, or allows test clients
+            # to optionally raise the error within the test case.
+>           raise exc
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:186: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <starlette.middleware.errors.ServerErrorMiddleware object at 0x0000029810695BE0>
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function ASGITransport.handle_async_request.<locals>.send at 0x0000029810662160>
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+    
+        response_started = False
+    
+        async def _send(message: Message) -> None:
+            nonlocal response_started, send
+    
+            if message["type"] == "http.response.start":
+                response_started = True
+            await send(message)
+    
+        try:
+>           await self.app(scope, receive, _send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:164: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000029810695A90>
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function ServerErrorMiddleware.__call__.<locals>._send at 0x00000298106987C0>
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] not in ("http", "websocket"):
+            await self.app(scope, receive, send)
+            return
+    
+        scope["starlette.exception_handlers"] = (
+            self._exception_handlers,
+            self._status_handlers,
+        )
+    
+        conn: Request | WebSocket
+        if scope["type"] == "http":
+            conn = Request(scope, receive, send)
+        else:
+            conn = WebSocket(scope, receive, send)
+    
+>       await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\exceptions.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function ServerErrorMiddleware.__call__.<locals>._send at 0x00000298106987C0>
+
+    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -> None:
+        response_started = False
+    
+        async def sender(message: Message) -> None:
+            nonlocal response_started
+    
+            if message["type"] == "http.response.start":
+                response_started = True
+            await send(message)
+    
+        try:
+            await app(scope, receive, sender)
+        except Exception as exc:
+            handler = None
+    
+            if isinstance(exc, HTTPException):
+                handler = status_handlers.get(exc.status_code)
+    
+            if handler is None:
+                handler = _lookup_exception_handler(exception_handlers, exc)
+    
+            if handler is None:
+>               raise exc
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function ServerErrorMiddleware.__call__.<locals>._send at 0x00000298106987C0>
+
+    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -> None:
+        response_started = False
+    
+        async def sender(message: Message) -> None:
+            nonlocal response_started
+    
+            if message["type"] == "http.response.start":
+                response_started = True
+            await send(message)
+    
+        try:
+>           await app(scope, receive, sender)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <fastapi.routing.APIRouter object at 0x000002981058BA50>
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000029810699260>
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        """
+        The main entry point to the Router class.
+        """
+>       await self.middleware_stack(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:756: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <fastapi.routing.APIRouter object at 0x000002981058BA50>
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000029810699260>
+
+    async def app(self, scope: Scope, receive: Receive, send: Send) -> None:
+        assert scope["type"] in ("http", "websocket", "lifespan")
+    
+        if "router" not in scope:
+            scope["router"] = self
+    
+        if scope["type"] == "lifespan":
+            await self.lifespan(scope, receive, send)
+            return
+    
+        partial = None
+    
+        for route in self.routes:
+            # Determine if any route matches the incoming scope,
+            # and hand over to the matching route if found.
+            match, child_scope = route.matches(scope)
+            if match == Match.FULL:
+                scope.update(child_scope)
+>               await route.handle(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:776: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = APIRoute(path='/api/v1/b2c/cart/items', name='add_cart_item', methods=['POST'])
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000029810699260>
+
+    async def handle(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if self.methods and scope["method"] not in self.methods:
+            headers = {"Allow": ", ".join(self.methods)}
+            if "app" in scope:
+                raise HTTPException(status_code=405, headers=headers)
+            else:
+                response = PlainTextResponse(
+                    "Method Not Allowed", status_code=405, headers=headers
+                )
+            await response(scope, receive, send)
+        else:
+>           await self.app(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:297: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000029810699260>
+
+    async def app(scope: Scope, receive: Receive, send: Send) -> None:
+        request = Request(scope, receive, send)
+    
+        async def app(scope: Scope, receive: Receive, send: Send) -> None:
+            if is_async_callable(func):
+                response = await func(request)
+            else:
+                response = await run_in_threadpool(func, request)
+            await response(scope, receive, send)
+    
+>       await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000029810699260>
+
+    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -> None:
+        response_started = False
+    
+        async def sender(message: Message) -> None:
+            nonlocal response_started
+    
+            if message["type"] == "http.response.start":
+                response_started = True
+            await send(message)
+    
+        try:
+            await app(scope, receive, sender)
+        except Exception as exc:
+            handler = None
+    
+            if isinstance(exc, HTTPException):
+                handler = status_handlers.get(exc.status_code)
+    
+            if handler is None:
+                handler = _lookup_exception_handler(exception_handlers, exc)
+    
+            if handler is None:
+>               raise exc
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000029810699260>
+
+    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -> None:
+        response_started = False
+    
+        async def sender(message: Message) -> None:
+            nonlocal response_started
+    
+            if message["type"] == "http.response.start":
+                response_started = True
+            await send(message)
+    
+        try:
+>           await app(scope, receive, sender)
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+scope = {'type': 'http', 'asgi': {'version': '3.0'}, 'http_version': '1.1', 'method': 'POST', ...}
+receive = <function ASGITransport.handle_async_request.<locals>.receive at 0x0000029810662200>
+send = <function wrap_app_handling_exceptions.<locals>.wrapped_app.<locals>.sender at 0x0000029810699440>
+
+    async def app(scope: Scope, receive: Receive, send: Send) -> None:
+        if is_async_callable(func):
+>           response = await func(request)
+                       ^^^^^^^^^^^^^^^^^^^
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:72: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+request = <starlette.requests.Request object at 0x00000298105FBB10>
+
+    async def app(request: Request) -> Response:
+        response: Union[Response, None] = None
+        async with AsyncExitStack() as file_stack:
+            try:
+                body: Any = None
+                if body_field:
+                    if is_body_form:
+                        body = await request.form()
+                        file_stack.push_async_callback(body.close)
+                    else:
+                        body_bytes = await request.body()
+                        if body_bytes:
+                            json_body: Any = Undefined
+                            content_type_value = request.headers.get("content-type")
+                            if not content_type_value:
+                                json_body = await request.json()
+                            else:
+                                message = email.message.Message()
+                                message["content-type"] = content_type_value
+                                if message.get_content_maintype() == "application":
+                                    subtype = message.get_content_subtype()
+                                    if subtype == "json" or subtype.endswith("+json"):
+                                        json_body = await request.json()
+                            if json_body != Undefined:
+                                body = json_body
+                            else:
+                                body = body_bytes
+            except json.JSONDecodeError as e:
+                validation_error = RequestValidationError(
+                    [
+                        {
+                            "type": "json_invalid",
+                            "loc": ("body", e.pos),
+                            "msg": "JSON decode error",
+                            "input": {},
+                            "ctx": {"error": e.msg},
+                        }
+                    ],
+                    body=e.doc,
+                )
+                raise validation_error from e
+            except HTTPException:
+                # If a middleware raises an HTTPException, it should be raised again
+                raise
+            except Exception as e:
+                http_error = HTTPException(
+                    status_code=400, detail="There was an error parsing the body"
+                )
+                raise http_error from e
+            errors: List[Any] = []
+            async with AsyncExitStack() as async_exit_stack:
+                solved_result = await solve_dependencies(
+                    request=request,
+                    dependant=dependant,
+                    body=body,
+                    dependency_overrides_provider=dependency_overrides_provider,
+                    async_exit_stack=async_exit_stack,
+                )
+                values, errors, background_tasks, sub_response, _ = solved_result
+                if not errors:
+>                   raw_response = await run_endpoint_function(
+                        dependant=dependant, values=values, is_coroutine=is_coroutine
+                    )
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:278: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+dependant = <fastapi.dependencies.models.Dependant object at 0x00000298105FFC50>
+values = {'cart_owner': (None, 'e002b402-bed4-4435-b90a-d4113bbdfb6a'), 'session': <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x00000298106963C0>, 'item': CartItemAddRequest(sku_id='c3fc4a22-fe9d-42f8-a3a9-b17ca647c814', quantity=1)}
+is_coroutine = True
+
+    async def run_endpoint_function(
+        *, dependant: Dependant, values: Dict[str, Any], is_coroutine: bool
+    ) -> Any:
+        # Only called by get_request_handler. Has been split into its own function to
+        # facilitate profiling endpoints, since inner functions are harder to profile.
+        assert dependant.call is not None, "dependant.call must be a function"
+    
+        if is_coroutine:
+>           return await dependant.call(**values)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:191: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+item = CartItemAddRequest(sku_id='c3fc4a22-fe9d-42f8-a3a9-b17ca647c814', quantity=1)
+cart_owner = (None, 'e002b402-bed4-4435-b90a-d4113bbdfb6a')
+session = <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x00000298106963C0>
+
+    @router.post(
+        "/cart/items",
+        response_model=CartResponse,
+        summary="Add item to cart",
+        description="Add a SKU to the cart or increment quantity if already exists.",
+        responses={
+            200: {"description": "Item added, returns updated cart"},
+            401: {"description": "Authentication required"},
+            422: {"description": "Validation error"},
+        },
+    )
+    async def add_cart_item(
+        item: CartItemAddRequest,
+        cart_owner=Depends(get_cart_owner),
+        session: AsyncSession = Depends(get_async_session),
+    ) -> CartResponse:
+        """
+        Add an item to the cart.
+    
+        If the SKU already exists in the cart, the quantity is incremented.
+        Returns the updated enriched cart.
+        """
+        resolved_user_id, resolved_session_id = cart_owner
+    
+        service = CartService(session)
+        cart = await service.get_or_create_cart(
+            user_id=str(resolved_user_id) if resolved_user_id else None,
+            session_id=resolved_session_id if resolved_user_id is None else None,
+        )
+    
+        await service.add_item(
+            cart=cart,
+            sku_id=str(item.sku_id),
+            quantity=item.quantity,
+        )
+    
+>       return await service.get_enriched_cart(cart)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+apis\b2c\cart.py:178: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <services.cart_service.CartService object at 0x00000298106967B0>
+cart = <Cart(id=dfdcc0da-9163-47ee-b93b-93cb5f50d204, user_id=None, session_id=e002b402-bed4-4435-b90a-d4113bbdfb6a)>
+
+    async def get_enriched_cart(self, cart: Cart) -> CartResponse:
+        """
+        Get cart with enriched item data from B2B catalog.
+    
+        For each item in the cart, fetches the current SKU and Product
+        data to provide availability status and pricing. Calculates
+        unavailable_reason if the item cannot be purchased.
+    
+        Totals (total_amount, total_items) only include available items.
+    
+        Args:
+            cart: Cart instance.
+    
+        Returns:
+            CartResponse with enriched items and totals.
+        """
+        # Load cart items if not already loaded
+        query = (
+            select(Cart)
+            .where(Cart.id == cart.id)
+            .options(selectinload(Cart.items))
+        )
+        result = await self.session.execute(query)
+        cart_with_items = result.scalars().first()
+    
+        items_response = []
+        total_amount_cents = 0
+        total_items = 0
+    
+        for cart_item in cart_with_items.items:
+>           enriched_item = await self._enrich_cart_item(cart_item)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+services\cart_service.py:305: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <services.cart_service.CartService object at 0x00000298106967B0>
+cart_item = <CartItem(id=cc70f291-68a0-4cb6-ab46-e7288fa073ae, cart_id=dfdcc0da-9163-47ee-b93b-93cb5f50d204, sku_id=c3fc4a22-fe9d-42f8-a3a9-b17ca647c814, quantity=1)>
+
+    async def _enrich_cart_item(
+        self, cart_item: CartItem
+    ) -> CartItemResponse:
+        """
+        Enrich a single cart item with current SKU and Product data.
+    
+        Never includes cost_price or reserved_quantity in sku_data.
+    
+        Args:
+            cart_item: CartItem instance.
+    
+        Returns:
+            CartItemResponse with availability data.
+        """
+        # Fetch SKU with product data
+        query = (
+            select(SKU)
+            .where(SKU.id == cart_item.sku_id)
+            .options(selectinload(SKU.product))
+        )
+        result = await self.session.execute(query)
+        sku = result.scalars().first()
+    
+        # SKU not found
+        if sku is None:
+>           return CartItemResponse(
+                sku_id=cart_item.sku_id,
+                sku_data=None,
+                quantity=cart_item.quantity,
+                unavailable_reason=UnavailableReason.SKU_NOT_FOUND,
+            )
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for CartItemResponse
+E           sku_id
+E             Input should be a valid string [type=string_type, input_value=UUID('c3fc4a22-fe9d-42f8-a3a9-b17ca647c814'), input_type=UUID]
+E               For further information visit https://errors.pydantic.dev/2.12/v/string_type
+
+services\cart_service.py:347: ValidationError
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_sku_increments_quantity_if_already_in_cart - pydantic_core._pydantic_core.ValidationError: 1 validation error for CartItemResponse
+sku_id
+  Input should be a valid string [type=string_type, input_value=UUID('c3fc4a22-fe9d-42f8-a3a9-b17ca647c814'), input_type=UUID]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+======================== 1 failed, 9 warnings in 1.32s ========================

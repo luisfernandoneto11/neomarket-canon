@@ -16,7 +16,7 @@ from .reserve_schemas import (
     ReserveResponse,
     ReserveItemResponse,
     ReserveErrorResponse,
-    FailedReserveItem,
+    FailedItem,
     UnreserveRequest,
     UnreserveResponse,
 )
@@ -26,6 +26,14 @@ from .moderation_event_schemas import (
     BlockingReason,
     ModerationEventRequest,
     ModerationEventResponse,
+)
+
+from .cart_schemas import (
+    CartItemAddRequest,
+    CartItemUpdateRequest,
+    CartResponse,
+    CartItemResponse,
+    UnavailableReason,
 )
 
 __all__ = [
@@ -39,11 +47,16 @@ __all__ = [
     "ReserveResponse",
     "ReserveItemResponse",
     "ReserveErrorResponse",
-    "FailedReserveItem",
+    "FailedItem",
     "UnreserveRequest",
     "UnreserveResponse",
     "FieldReport",
     "BlockingReason",
     "ModerationEventRequest",
     "ModerationEventResponse",
+    "CartItemAddRequest",
+    "CartItemUpdateRequest",
+    "CartResponse",
+    "CartItemResponse",
+    "UnavailableReason",
 ]

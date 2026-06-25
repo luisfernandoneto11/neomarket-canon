@@ -1,0 +1,1083 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 61 items
+
+tests\test_b2b_catalog.py::TestCatalogReturnsModeratedProducts::test_catalog_returns_moderated_in_stock_products FAILED [  1%]
+tests\test_b2b_catalog.py::TestCatalogExcludesHardBlocked::test_catalog_excludes_hard_blocked FAILED [  3%]
+tests\test_b2b_catalog.py::TestCatalogResponseSchema::test_catalog_response_has_no_cost_price FAILED [  4%]
+tests\test_b2b_catalog.py::TestCatalogPagination::test_catalog_pagination_works_correctly FAILED [  6%]
+tests\test_b2b_catalog.py::TestCatalogEmptyResults::test_catalog_returns_empty_when_no_moderated_products PASSED [  8%]
+tests\test_b2b_catalog.py::TestCatalogExcludesDeletedProducts::test_catalog_excludes_deleted_products FAILED [  9%]
+tests\test_b2b_moderation_events.py::TestModeratedEventClearsBlockingData::test_moderated_event_clears_blocking_data FAILED [ 11%]
+tests\test_b2b_moderation_events.py::TestBlockedSoftSavesFieldReports::test_blocked_soft_saves_field_reports FAILED [ 13%]
+tests\test_b2b_moderation_events.py::TestBlockedHardSetsTerminalStatus::test_blocked_hard_sets_terminal_status FAILED [ 14%]
+tests\test_b2b_moderation_events.py::TestHardBlockedProductRejectsSellerEdits::test_hard_blocked_product_rejects_seller_edits FAILED [ 16%]
+tests\test_b2b_moderation_events.py::TestDuplicateEventNoSideEffects::test_duplicate_event_same_idempotency_key_no_side_effects FAILED [ 18%]
+tests\test_b2b_moderation_events.py::TestMissingServiceKeyReturns401::test_missing_service_key_returns_401 FAILED [ 19%]
+tests\test_b2b_moderation_events.py::TestInvalidServiceKeyReturns401::test_invalid_service_key_returns_401 PASSED [ 21%]
+tests\test_b2b_products.py::TestGetModeratedProduct::test_get_moderated_product_returns_full_payload PASSED [ 22%]
+tests\test_b2b_products.py::TestGetBlockedProduct::test_get_blocked_product_returns_blocking_reason_and_field_reports PASSED [ 24%]
+tests\test_b2b_products.py::TestGetOthersProduct::test_get_others_product_returns_404 PASSED [ 26%]
+tests\test_b2b_products.py::TestGetNonexistentProduct::test_get_nonexistent_returns_404 PASSED [ 27%]
+tests\test_b2b_reserve.py::TestReserveStock::test_reserve_all_skus_succeeds FAILED [ 29%]
+tests\test_b2b_reserve.py::TestReserveStock::test_partial_insufficient_stock_returns_409_all_rollback FAILED [ 31%]
+tests\test_b2b_reserve.py::TestReserveStock::test_idempotent_reserve_returns_200_without_double_deduction FAILED [ 32%]
+tests\test_b2b_reserve.py::TestReserveStock::test_sku_out_of_stock_event_emitted FAILED [ 34%]
+tests\test_b2b_reserve.py::TestReserveStock::test_unreserve_restores_quantities FAILED [ 36%]
+tests\test_b2b_reserve.py::TestReserveEndpointAuth::test_reserve_without_service_key_returns_401 FAILED [ 37%]
+tests\test_b2b_reserve.py::TestReserveEndpointAuth::test_reserve_with_invalid_service_key_returns_401 FAILED [ 39%]
+tests\test_b2b_skus.py::TestFirstSKUCreation::test_first_sku_transitions_to_on_moderation FAILED [ 40%]
+tests\test_b2b_skus.py::TestFirstSKUCreation::test_first_sku_sends_event_to_moderation FAILED [ 42%]
+tests\test_b2b_skus.py::TestSecondSKUBehavior::test_second_sku_does_not_change_status FAILED [ 44%]
+tests\test_b2b_skus.py::TestSecondSKUBehavior::test_second_sku_does_not_send_event FAILED [ 45%]
+tests\test_b2b_skus.py::TestHARDBlockedProduct::test_hard_blocked_product_returns_403 PASSED [ 47%]
+tests\test_b2b_skus.py::TestValidationErrors::test_missing_image_url_returns_400 PASSED [ 49%]
+tests\test_b2b_skus.py::TestValidationErrors::test_invalid_price_returns_400 PASSED [ 50%]
+tests\test_b2b_skus.py::TestProductNotFound::test_product_not_found_returns_404 PASSED [ 52%]
+tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_sku_increments_quantity_if_already_in_cart PASSED [ 54%]
+tests\test_b2c_cart.py::TestAddItemIncrementsQuantity::test_add_item_with_quantity_zero_via_update_removes PASSED [ 55%]
+tests\test_b2c_cart.py::TestGetEnrichedCart::test_get_cart_enriched_with_b2b_data PASSED [ 57%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_unavailable_sku_shown_with_reason PASSED [ 59%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_out_of_stock_sku_shown_with_reason PASSED [ 60%]
+tests\test_b2c_cart.py::TestUnavailableReason::test_blocked_product_sku_shown_with_reason PASSED [ 62%]
+tests\test_b2c_cart.py::TestMergeCart::test_guest_cart_merged_on_login PASSED [ 63%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_cart_guest_only_new_sku PASSED [ 65%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_requires_bearer_token PASSED [ 67%]
+tests\test_b2c_cart.py::TestMergeCart::test_merge_requires_session_id PASSED [ 68%]
+tests\test_b2c_cart.py::TestRemoveAndClear::test_remove_item PASSED      [ 70%]
+tests\test_b2c_cart.py::TestRemoveAndClear::test_clear_cart PASSED       [ 72%]
+tests\test_b2c_cart.py::TestIDORProtection::test_cannot_access_other_user_cart PASSED [ 73%]
+tests\test_b2c_cart.py::TestIDORProtection::test_session_cart_not_accessible_by_other_session PASSED [ 75%]
+tests\test_b2c_cart.py::TestIDORProtection::test_authentication_required PASSED [ 77%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_or_create_cart_by_session PASSED [ 78%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_or_create_cart_by_user PASSED [ 80%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_get_existing_cart PASSED [ 81%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_add_new_item PASSED    [ 83%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_add_existing_item_increments PASSED [ 85%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_update_item PASSED     [ 86%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_update_item_zero_removes PASSED [ 88%]
+tests\test_b2c_cart.py::TestCartServiceUnit::test_remove_item PASSED     [ 90%]
+tests\test_product_events.py::TestProductCreatedEvent::test_created_pending FAILED [ 91%]
+tests\test_product_events.py::TestProductEditedEvent::test_edited_returns_to_review ERROR [ 93%]
+tests\test_product_events.py::TestProductEditedEvent::test_edited_updates_in_review ERROR [ 95%]
+tests\test_product_events.py::TestProductDeletedEvent::test_deleted_archived ERROR [ 96%]
+tests\test_product_events.py::TestIdempotency::test_duplicate_event_no_side_effects FAILED [ 98%]
+tests\test_product_events.py::TestAuthentication::test_missing_service_header_401 PASSED [100%]
+
+=================================== ERRORS ====================================
+___ ERROR at setup of TestProductEditedEvent.test_edited_returns_to_review ____
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:160: in _execute
+    return await future
+           ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:63: in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+E   sqlite3.OperationalError: no such table: product_blocking_reasons
+
+The above exception was the direct cause of the following exception:
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:558: in setup
+    return super().setup()
+           ^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:944: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:455: in _async_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:451: in setup
+    res = await fixture_function(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:223: in blocking_reason
+    await db_session.merge(blocking_reason)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:775: in merge
+    return await greenlet_spawn(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:201: in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:3945: in merge
+    return self._merge(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4023: in _merge
+    merged = self.get(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:3680: in get
+    return self._get_impl(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:3859: in _get_impl
+    return db_load_fn(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\loading.py:695: in load_on_pk_identity
+    session.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:160: in _execute
+    return await future
+           ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:63: in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: product_blocking_reasons
+E   [SQL: SELECT product_blocking_reasons.id AS product_blocking_reasons_id, product_blocking_reasons.title AS product_blocking_reasons_title, product_blocking_reasons.hard_block AS product_blocking_reasons_hard_block 
+E   FROM product_blocking_reasons 
+E   WHERE product_blocking_reasons.id = ?]
+E   [parameters: ('a7b8c9d0-1234-5678-ef01-890123456789',)]
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+___ ERROR at setup of TestProductEditedEvent.test_edited_updates_in_review ____
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:160: in _execute
+    return await future
+           ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:63: in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+E   sqlite3.OperationalError: no such table: product_moderation
+
+The above exception was the direct cause of the following exception:
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:558: in setup
+    return super().setup()
+           ^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:944: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:455: in _async_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:451: in setup
+    res = await fixture_function(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:309: in in_review_product
+    await db_session.commit()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py:1233: in _emit_insert_statements
+    result = connection.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:160: in _execute
+    return await future
+           ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:63: in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: product_moderation
+E   [SQL: INSERT INTO product_moderation (id, idempotency_key, product_id, seller_id, status, queue_priority, json_before, json_after, blocking_reason_id, moderator_id, moderator_comment, date_moderation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING date_created, date_updated]
+E   [parameters: ('8d8d9d89-97df-4e5b-bd15-35e43f916577', None, '02daf88b-7ad6-401a-b386-342d8a47e677', '60340a2a-edfc-46a2-9afd-63ba7ba1db78', 'IN_REVIEW', 3, '{"title": "Old Title"}', '{"title": "New Title"}', None, 'b0d9f53a-8bfc-4aea-92df-f556208e6d7e', None, None)]
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+_______ ERROR at setup of TestProductDeletedEvent.test_deleted_archived _______
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:160: in _execute
+    return await future
+           ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:63: in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+E   sqlite3.OperationalError: no such table: product_blocking_reasons
+
+The above exception was the direct cause of the following exception:
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:558: in setup
+    return super().setup()
+           ^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:944: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:455: in _async_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\pytest_asyncio\plugin.py:451: in setup
+    res = await fixture_function(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:223: in blocking_reason
+    await db_session.merge(blocking_reason)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:775: in merge
+    return await greenlet_spawn(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:201: in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:3945: in merge
+    return self._merge(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4023: in _merge
+    merged = self.get(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:3680: in get
+    return self._get_impl(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:3859: in _get_impl
+    return db_load_fn(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\loading.py:695: in load_on_pk_identity
+    session.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:160: in _execute
+    return await future
+           ^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\aiosqlite\core.py:63: in _connection_worker_thread
+    result = function()
+             ^^^^^^^^^^
+E   sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: product_blocking_reasons
+E   [SQL: SELECT product_blocking_reasons.id AS product_blocking_reasons_id, product_blocking_reasons.title AS product_blocking_reasons_title, product_blocking_reasons.hard_block AS product_blocking_reasons_hard_block 
+E   FROM product_blocking_reasons 
+E   WHERE product_blocking_reasons.id = ?]
+E   [parameters: ('a7b8c9d0-1234-5678-ef01-890123456789',)]
+E   (Background on this error at: https://sqlalche.me/e/20/e3q8)
+================================== FAILURES ===================================
+_ TestCatalogReturnsModeratedProducts.test_catalog_returns_moderated_in_stock_products _
+tests\test_b2b_catalog.py:44: in test_catalog_returns_moderated_in_stock_products
+    sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+______ TestCatalogExcludesHardBlocked.test_catalog_excludes_hard_blocked ______
+tests\test_b2b_catalog.py:100: in test_catalog_excludes_hard_blocked
+    sku_blocked = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+______ TestCatalogResponseSchema.test_catalog_response_has_no_cost_price ______
+tests\test_b2b_catalog.py:146: in test_catalog_response_has_no_cost_price
+    sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+________ TestCatalogPagination.test_catalog_pagination_works_correctly ________
+tests\test_b2b_catalog.py:204: in test_catalog_pagination_works_correctly
+    sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+__ TestCatalogExcludesDeletedProducts.test_catalog_excludes_deleted_products __
+tests\test_b2b_catalog.py:288: in test_catalog_excludes_deleted_products
+    sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+_ TestModeratedEventClearsBlockingData.test_moderated_event_clears_blocking_data _
+tests\test_b2b_moderation_events.py:79: in test_moderated_event_clears_blocking_data
+    assert response.status_code == 200
+E   assert 401 == 200
+E    +  where 401 = <Response [401 Unauthorized]>.status_code
+___ TestBlockedSoftSavesFieldReports.test_blocked_soft_saves_field_reports ____
+tests\test_b2b_moderation_events.py:145: in test_blocked_soft_saves_field_reports
+    assert response.status_code == 200
+E   assert 401 == 200
+E    +  where 401 = <Response [401 Unauthorized]>.status_code
+__ TestBlockedHardSetsTerminalStatus.test_blocked_hard_sets_terminal_status ___
+tests\test_b2b_moderation_events.py:207: in test_blocked_hard_sets_terminal_status
+    assert response.status_code == 200
+E   assert 401 == 200
+E    +  where 401 = <Response [401 Unauthorized]>.status_code
+_ TestHardBlockedProductRejectsSellerEdits.test_hard_blocked_product_rejects_seller_edits _
+tests\test_b2b_moderation_events.py:260: in test_hard_blocked_product_rejects_seller_edits
+    assert response.status_code in [403, 404]
+E   assert 405 in [403, 404]
+E    +  where 405 = <Response [405 Method Not Allowed]>.status_code
+_ TestDuplicateEventNoSideEffects.test_duplicate_event_same_idempotency_key_no_side_effects _
+tests\test_b2b_moderation_events.py:327: in test_duplicate_event_same_idempotency_key_no_side_effects
+    assert response1.status_code == 200
+E   assert 401 == 200
+E    +  where 401 = <Response [401 Unauthorized]>.status_code
+____ TestMissingServiceKeyReturns401.test_missing_service_key_returns_401 _____
+tests\test_b2b_moderation_events.py:392: in test_missing_service_key_returns_401
+    assert response.status_code == 401
+E   assert 422 == 401
+E    +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+_______________ TestReserveStock.test_reserve_all_skus_succeeds _______________
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:923: in _deliver_insertmanyvalues_batches
+    rows_by_sentinel[sentinel_keys]
+E   KeyError: '0475149a-5678-4366-9dd9-775375d49408'
+
+The above exception was the direct cause of the following exception:
+tests\test_b2b_reserve.py:80: in test_reserve_all_skus_succeeds
+    await db_session.commit()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+<string>:2: in commit
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+<string>:2: in _prepare_impl
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py:1143: in _emit_insert_statements
+    result = connection.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1844: in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:2040: in _exec_insertmany_context
+    for imv_batch in dialect._deliver_insertmanyvalues_batches(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:930: in _deliver_insertmanyvalues_batches
+    raise exc.InvalidRequestError(
+E   sqlalchemy.exc.InvalidRequestError: Can't match sentinel values in result set to parameter sets; key '0475149a-5678-4366-9dd9-775375d49408' was not found. There may be a mismatch between the datatype passed to the DBAPI driver vs. that which it returns in a result row.  Ensure the given Python value matches the expected result type *exactly*, taking care to not rely upon implicit conversions which may occur such as when using strings in place of UUID or integer values, etc.
+__ TestReserveStock.test_partial_insufficient_stock_returns_409_all_rollback __
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:923: in _deliver_insertmanyvalues_batches
+    rows_by_sentinel[sentinel_keys]
+E   KeyError: '5ee1765f-47b6-47ef-9b98-447308970b74'
+
+The above exception was the direct cause of the following exception:
+tests\test_b2b_reserve.py:159: in test_partial_insufficient_stock_returns_409_all_rollback
+    await db_session.commit()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+<string>:2: in commit
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+<string>:2: in _prepare_impl
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\persistence.py:1143: in _emit_insert_statements
+    result = connection.execute(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:1844: in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py:2040: in _exec_insertmany_context
+    for imv_batch in dialect._deliver_insertmanyvalues_batches(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\default.py:930: in _deliver_insertmanyvalues_batches
+    raise exc.InvalidRequestError(
+E   sqlalchemy.exc.InvalidRequestError: Can't match sentinel values in result set to parameter sets; key '5ee1765f-47b6-47ef-9b98-447308970b74' was not found. There may be a mismatch between the datatype passed to the DBAPI driver vs. that which it returns in a result row.  Ensure the given Python value matches the expected result type *exactly*, taking care to not rely upon implicit conversions which may occur such as when using strings in place of UUID or integer values, etc.
+_ TestReserveStock.test_idempotent_reserve_returns_200_without_double_deduction _
+tests\test_b2b_reserve.py:231: in test_idempotent_reserve_returns_200_without_double_deduction
+    assert response1.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+____________ TestReserveStock.test_sku_out_of_stock_event_emitted _____________
+tests\test_b2b_reserve.py:297: in test_sku_out_of_stock_event_emitted
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_____________ TestReserveStock.test_unreserve_restores_quantities _____________
+tests\test_b2b_reserve.py:350: in test_unreserve_restores_quantities
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+____ TestReserveEndpointAuth.test_reserve_without_service_key_returns_401 _____
+tests\test_b2b_reserve.py:377: in test_reserve_without_service_key_returns_401
+    assert response.status_code == 401
+E   assert 404 == 401
+E    +  where 404 = <Response [404 Not Found]>.status_code
+__ TestReserveEndpointAuth.test_reserve_with_invalid_service_key_returns_401 __
+tests\test_b2b_reserve.py:397: in test_reserve_with_invalid_service_key_returns_401
+    assert response.status_code == 401
+E   assert 404 == 401
+E    +  where 404 = <Response [404 Not Found]>.status_code
+______ TestFirstSKUCreation.test_first_sku_transitions_to_on_moderation _______
+tests\test_b2b_skus.py:57: in test_first_sku_transitions_to_on_moderation
+    response = await client.post(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1848: in post
+    return await self.request(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1533: in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1620: in send
+    response = await self._send_handling_auth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1648: in _send_handling_auth
+    response = await self._send_handling_redirects(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1685: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1722: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\asgi.py:162: in handle_async_request
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:278: in app
+    raw_response = await run_endpoint_function(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:191: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apis\b2b\router.py:65: in create_sku
+    result = await service.create_sku(sku_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services\b2b_service.py:177: in create_sku
+    new_sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+________ TestFirstSKUCreation.test_first_sku_sends_event_to_moderation ________
+tests\test_b2b_skus.py:105: in test_first_sku_sends_event_to_moderation
+    response = await client.post(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1848: in post
+    return await self.request(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1533: in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1620: in send
+    response = await self._send_handling_auth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1648: in _send_handling_auth
+    response = await self._send_handling_redirects(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1685: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1722: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\asgi.py:162: in handle_async_request
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:278: in app
+    raw_response = await run_endpoint_function(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:191: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apis\b2b\router.py:65: in create_sku
+    result = await service.create_sku(sku_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services\b2b_service.py:177: in create_sku
+    new_sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+________ TestSecondSKUBehavior.test_second_sku_does_not_change_status _________
+tests\test_b2b_skus.py:154: in test_second_sku_does_not_change_status
+    first_response = await client.post(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1848: in post
+    return await self.request(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1533: in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1620: in send
+    response = await self._send_handling_auth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1648: in _send_handling_auth
+    response = await self._send_handling_redirects(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1685: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1722: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\asgi.py:162: in handle_async_request
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:278: in app
+    raw_response = await run_endpoint_function(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:191: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apis\b2b\router.py:65: in create_sku
+    result = await service.create_sku(sku_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services\b2b_service.py:177: in create_sku
+    new_sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+__________ TestSecondSKUBehavior.test_second_sku_does_not_send_event __________
+tests\test_b2b_skus.py:217: in test_second_sku_does_not_send_event
+    first_response = await client.post(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1848: in post
+    return await self.request(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1533: in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1620: in send
+    response = await self._send_handling_auth(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1648: in _send_handling_auth
+    response = await self._send_handling_redirects(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1685: in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_client.py:1722: in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\httpx\_transports\asgi.py:162: in handle_async_request
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:278: in app
+    raw_response = await run_endpoint_function(
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\routing.py:191: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+apis\b2b\router.py:65: in create_sku
+    result = await service.create_sku(sku_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services\b2b_service.py:177: in create_sku
+    new_sku = SKU(
+<string>:4: in __init__
+    ???
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\decl_base.py:2179: in _declarative_constructor
+    raise TypeError(
+E   TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+________________ TestProductCreatedEvent.test_created_pending _________________
+tests\test_product_events.py:57: in test_created_pending
+    assert response.status_code == 202
+E   assert 500 == 202
+E    +  where 500 = <Response [500 Internal Server Error]>.status_code
+____________ TestIdempotency.test_duplicate_event_no_side_effects _____________
+tests\test_product_events.py:290: in test_duplicate_event_no_side_effects
+    moderation_id = data1["moderation_id"]
+                    ^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'moderation_id'
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+test_product_events.py::TestProductCreatedEvent::test_created_pending
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests\test_product_events.py:38: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    event_date = datetime.utcnow()
+
+test_product_events.py::TestIdempotency::test_duplicate_event_no_side_effects
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests\test_product_events.py:269: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    event_date = datetime.utcnow()
+
+test_product_events.py::TestAuthentication::test_missing_service_header_401
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests\test_product_events.py:349: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "occurred_at": datetime.utcnow().isoformat() + "Z",
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_b2b_catalog.py::TestCatalogReturnsModeratedProducts::test_catalog_returns_moderated_in_stock_products - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_catalog.py::TestCatalogExcludesHardBlocked::test_catalog_excludes_hard_blocked - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_catalog.py::TestCatalogResponseSchema::test_catalog_response_has_no_cost_price - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_catalog.py::TestCatalogPagination::test_catalog_pagination_works_correctly - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_catalog.py::TestCatalogExcludesDeletedProducts::test_catalog_excludes_deleted_products - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_moderation_events.py::TestModeratedEventClearsBlockingData::test_moderated_event_clears_blocking_data - assert 401 == 200
+ +  where 401 = <Response [401 Unauthorized]>.status_code
+FAILED tests\test_b2b_moderation_events.py::TestBlockedSoftSavesFieldReports::test_blocked_soft_saves_field_reports - assert 401 == 200
+ +  where 401 = <Response [401 Unauthorized]>.status_code
+FAILED tests\test_b2b_moderation_events.py::TestBlockedHardSetsTerminalStatus::test_blocked_hard_sets_terminal_status - assert 401 == 200
+ +  where 401 = <Response [401 Unauthorized]>.status_code
+FAILED tests\test_b2b_moderation_events.py::TestHardBlockedProductRejectsSellerEdits::test_hard_blocked_product_rejects_seller_edits - assert 405 in [403, 404]
+ +  where 405 = <Response [405 Method Not Allowed]>.status_code
+FAILED tests\test_b2b_moderation_events.py::TestDuplicateEventNoSideEffects::test_duplicate_event_same_idempotency_key_no_side_effects - assert 401 == 200
+ +  where 401 = <Response [401 Unauthorized]>.status_code
+FAILED tests\test_b2b_moderation_events.py::TestMissingServiceKeyReturns401::test_missing_service_key_returns_401 - assert 422 == 401
+ +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+FAILED tests\test_b2b_reserve.py::TestReserveStock::test_reserve_all_skus_succeeds - sqlalchemy.exc.InvalidRequestError: Can't match sentinel values in result set to parameter sets; key '0475149a-5678-4366-9dd9-775375d49408' was not found. There may be a mismatch between the datatype passed to the DBAPI driver vs. that which it returns in a result row.  Ensure the given Python value matches the expected result type *exactly*, taking care to not rely upon implicit conversions which may occur such as when using strings in place of UUID or integer values, etc.
+FAILED tests\test_b2b_reserve.py::TestReserveStock::test_partial_insufficient_stock_returns_409_all_rollback - sqlalchemy.exc.InvalidRequestError: Can't match sentinel values in result set to parameter sets; key '5ee1765f-47b6-47ef-9b98-447308970b74' was not found. There may be a mismatch between the datatype passed to the DBAPI driver vs. that which it returns in a result row.  Ensure the given Python value matches the expected result type *exactly*, taking care to not rely upon implicit conversions which may occur such as when using strings in place of UUID or integer values, etc.
+FAILED tests\test_b2b_reserve.py::TestReserveStock::test_idempotent_reserve_returns_200_without_double_deduction - assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2b_reserve.py::TestReserveStock::test_sku_out_of_stock_event_emitted - assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2b_reserve.py::TestReserveStock::test_unreserve_restores_quantities - assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2b_reserve.py::TestReserveEndpointAuth::test_reserve_without_service_key_returns_401 - assert 404 == 401
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2b_reserve.py::TestReserveEndpointAuth::test_reserve_with_invalid_service_key_returns_401 - assert 404 == 401
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2b_skus.py::TestFirstSKUCreation::test_first_sku_transitions_to_on_moderation - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_skus.py::TestFirstSKUCreation::test_first_sku_sends_event_to_moderation - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_skus.py::TestSecondSKUBehavior::test_second_sku_does_not_change_status - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_b2b_skus.py::TestSecondSKUBehavior::test_second_sku_does_not_send_event - TypeError: 'stock_quantity' is an invalid keyword argument for SKU
+FAILED tests\test_product_events.py::TestProductCreatedEvent::test_created_pending - assert 500 == 202
+ +  where 500 = <Response [500 Internal Server Error]>.status_code
+FAILED tests\test_product_events.py::TestIdempotency::test_duplicate_event_no_side_effects - KeyError: 'moderation_id'
+ERROR tests\test_product_events.py::TestProductEditedEvent::test_edited_returns_to_review - sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: product_blocking_reasons
+[SQL: SELECT product_blocking_reasons.id AS product_blocking_reasons_id, product_blocking_reasons.title AS product_blocking_reasons_title, product_blocking_reasons.hard_block AS product_blocking_reasons_hard_block 
+FROM product_blocking_reasons 
+WHERE product_blocking_reasons.id = ?]
+[parameters: ('a7b8c9d0-1234-5678-ef01-890123456789',)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR tests\test_product_events.py::TestProductEditedEvent::test_edited_updates_in_review - sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: product_moderation
+[SQL: INSERT INTO product_moderation (id, idempotency_key, product_id, seller_id, status, queue_priority, json_before, json_after, blocking_reason_id, moderator_id, moderator_comment, date_moderation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING date_created, date_updated]
+[parameters: ('8d8d9d89-97df-4e5b-bd15-35e43f916577', None, '02daf88b-7ad6-401a-b386-342d8a47e677', '60340a2a-edfc-46a2-9afd-63ba7ba1db78', 'IN_REVIEW', 3, '{"title": "Old Title"}', '{"title": "New Title"}', None, 'b0d9f53a-8bfc-4aea-92df-f556208e6d7e', None, None)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR tests\test_product_events.py::TestProductDeletedEvent::test_deleted_archived - sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: product_blocking_reasons
+[SQL: SELECT product_blocking_reasons.id AS product_blocking_reasons_id, product_blocking_reasons.title AS product_blocking_reasons_title, product_blocking_reasons.hard_block AS product_blocking_reasons_hard_block 
+FROM product_blocking_reasons 
+WHERE product_blocking_reasons.id = ?]
+[parameters: ('a7b8c9d0-1234-5678-ef01-890123456789',)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+============ 24 failed, 34 passed, 12 warnings, 3 errors in 14.57s ============

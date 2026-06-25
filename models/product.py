@@ -166,6 +166,8 @@ class SKU(Base):
     SKU (Stock Keeping Unit) model for product variants.
     
     This table stores SKU information including pricing, inventory, and images.
+    
+    Invariant: active_quantity + reserved_quantity = on_hand
     """
     
     __tablename__ = "skus"
@@ -176,8 +178,20 @@ class SKU(Base):
             name="ck_sku_price_positive"
         ),
         CheckConstraint(
-            "stock_quantity >= 0",
-            name="ck_sku_stock_non_negative"
+            "on_hand >= 0",
+            name="ck_sku_on_hand_non_negative"
+        ),
+        CheckConstraint(
+            "active_quantity >= 0",
+            name="ck_sku_active_non_negative"
+        ),
+        CheckConstraint(
+            "reserved_quantity >= 0",
+            name="ck_sku_reserved_non_negative"
+        ),
+        CheckConstraint(
+            "active_quantity + reserved_quantity = on_hand",
+            name="ck_sku_stock_invariant"
         ),
     )
     
@@ -216,11 +230,25 @@ class SKU(Base):
         comment="URL to SKU image"
     )
     
-    stock_quantity: Mapped[int] = mapped_column(
+    on_hand: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
         default=0,
-        comment="Available stock quantity (must be >= 0)"
+        comment="Total physical stock on hand (must be >= 0)"
+    )
+    
+    active_quantity: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        default=0,
+        comment="Active (available for sale) stock quantity"
+    )
+    
+    reserved_quantity: Mapped[int] = mapped_column(
+        Integer,
+        nullable=False,
+        default=0,
+        comment="Reserved (allocated to orders) stock quantity"
     )
     
     # Timestamps
@@ -249,5 +277,39 @@ class SKU(Base):
     def __repr__(self) -> str:
         return (
             f"<SKU(id={self.id}, sku_code={self.sku_code}, "
-            f"price={self.price}, stock={self.stock_quantity})>"
+            f"price={self.price}, on_hand={self.on_hand}, "
+            f"active={self.active_quantity}, reserved={self.reserved_quantity})>"
         )
+    
+    def verify_invariant(self) -> bool:
+        """Verify that active + reserved = on_hand invariant holds."""
+        return self.active_quantity + self.reserved_quantity == self.on_hand
+    
+    def reserve(self, quantity: int) -> bool:
+        """
+        Reserve stock if available.
+        
+        Returns True if reservation is successful, False otherwise.
+        """
+        if quantity > self.active_quantity:
+            return False
+        self.active_quantity -= quantity
+        self.reserved_quantity += quantity
+        return True
+    
+    def unreserve(self, quantity: int) -> bool:
+        """
+        Unreserve stock (release from reservation).
+        
+        Returns True if unreservation is successful, False otherwise.
+        """
+        if quantity > self.reserved_quantity:
+            return False
+        self.reserved_quantity -= quantity
+        self.active_quantity += quantity
+        return True
+    
+    def restore(self, quantity: int) -> None:
+        """Restore stock (e.g., after unreserve, return to active)."""
+        self.active_quantity += quantity
+        self.on_hand += quantity

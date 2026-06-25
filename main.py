@@ -3,6 +3,7 @@ from apis.moderation.events import router as moderation_router
 from apis.b2b import b2b_router
 from apis.b2b.products import router as products_router
 from apis.b2b.catalog import router as catalog_router
+from apis.b2b.reserve import router as reserve_router
 from models.database import engine, Base
 
 app = FastAPI(
@@ -22,6 +23,9 @@ app.include_router(products_router)
 
 # Incluir o roteador do Catálogo
 app.include_router(catalog_router)
+
+# Incluir oroteador de Reserva
+app.include_router(reserve_router)
 
 @app.on_event("startup")
 async def startup():

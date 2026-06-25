@@ -10,10 +10,29 @@ from .b2b_schemas import (
     ModerationEvent,
 )
 
+from .reserve_schemas import (
+    ReserveItem,
+    ReserveRequest,
+    ReserveResponse,
+    ReserveItemResponse,
+    ReserveErrorResponse,
+    FailedReserveItem,
+    UnreserveRequest,
+    UnreserveResponse,
+)
+
 __all__ = [
     "SKUCreateRequest",
     "SKUResponse",
     "ProductResponse",
     "EventPayload",
     "ModerationEvent",
+    "ReserveItem",
+    "ReserveRequest",
+    "ReserveResponse",
+    "ReserveItemResponse",
+    "ReserveErrorResponse",
+    "FailedReserveItem",
+    "UnreserveRequest",
+    "UnreserveResponse",
 ]

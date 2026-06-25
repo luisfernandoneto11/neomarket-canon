@@ -4,6 +4,41 @@
 -- Enable UUID extension if not exists
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Migration: US-B2B-05 - Add moderation fields to products and skus tables
+-- Description: Add blocking_reason, field_reports to products; cost_price, reserved_quantity to skus
+
+-- Table: products (B2B product management)
+CREATE TABLE IF NOT EXISTS products (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(2000),
+    status VARCHAR(20) NOT NULL DEFAULT 'DRAFT'
+        CHECK (status IN ('DRAFT', 'ON_MODERATION', 'MODERATED', 'BLOCKED', 'HARD_BLOCKED')),
+    blocking_reason JSONB,
+    field_reports JSONB DEFAULT '[]'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+);
+
+-- Table: skus (B2B product variants)
+CREATE TABLE IF NOT EXISTS skus (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    product_id UUID NOT NULL,
+    sku_code VARCHAR(50) NOT NULL UNIQUE,
+    price NUMERIC(10, 2) NOT NULL CHECK (price > 0),
+    cost_price NUMERIC(10, 2),
+    image_url VARCHAR(1000),
+    stock_quantity INTEGER NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
+    reserved_quantity INTEGER NOT NULL DEFAULT 0 CHECK (reserved_quantity >= 0),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+    
+    CONSTRAINT fk_product
+        FOREIGN KEY (product_id) 
+        REFERENCES products(id) 
+        ON DELETE CASCADE
+);
+
 -- Table: product_blocking_reasons
 -- Description: Reference table for product blocking reasons
 CREATE TABLE product_blocking_reasons (
@@ -54,13 +89,26 @@ CREATE TABLE product_moderation_field_report (
         ON DELETE CASCADE
 );
 
+-- Table: moderation_events
+-- Description: Idempotency tracking for moderation decisions from B2B
+CREATE TABLE IF NOT EXISTS moderation_events (
+    idempotency_key UUID PRIMARY KEY,
+    product_id UUID NOT NULL,
+    processed_at TIMESTAMP NOT NULL DEFAULT now(),
+    result JSONB NOT NULL
+);
+
 -- Indexes for better query performance
-CREATE INDEX idx_product_moderation_product_id ON product_moderation(product_id);
-CREATE INDEX idx_product_moderation_seller_id ON product_moderation(seller_id);
-CREATE INDEX idx_product_moderation_status ON product_moderation(status);
-CREATE INDEX idx_product_moderation_queue_priority ON product_moderation(queue_priority);
-CREATE INDEX idx_product_moderation_date_updated ON product_moderation(date_updated);
-CREATE INDEX idx_field_report_moderation_id ON product_moderation_field_report(product_moderation_id);
+CREATE INDEX IF NOT EXISTS idx_product_moderation_product_id ON product_moderation(product_id);
+CREATE INDEX IF NOT EXISTS idx_product_moderation_seller_id ON product_moderation(seller_id);
+CREATE INDEX IF NOT EXISTS idx_product_moderation_status ON product_moderation(status);
+CREATE INDEX IF NOT EXISTS idx_product_moderation_queue_priority ON product_moderation(queue_priority);
+CREATE INDEX IF NOT EXISTS idx_product_moderation_date_updated ON product_moderation(date_updated);
+CREATE INDEX IF NOT EXISTS idx_field_report_moderation_id ON product_moderation_field_report(product_moderation_id);
+CREATE INDEX IF NOT EXISTS idx_products_status ON products(status);
+CREATE INDEX IF NOT EXISTS idx_skus_product_id ON skus(product_id);
+CREATE INDEX IF NOT EXISTS idx_skus_sku_code ON skus(sku_code);
+CREATE INDEX IF NOT EXISTS idx_moderation_events_product_id ON moderation_events(product_id);
 
 -- Seed data for product_blocking_reasons
 INSERT INTO product_blocking_reasons (id, title, hard_block) VALUES
@@ -79,6 +127,8 @@ INSERT INTO product_blocking_reasons (id, title, hard_block) VALUES
 COMMENT ON TABLE product_blocking_reasons IS 'Reference table for product blocking reasons';
 COMMENT ON TABLE product_moderation IS 'Main table for product moderation records';
 COMMENT ON TABLE product_moderation_field_report IS 'Field-level reports for moderation issues';
+COMMENT ON TABLE products IS 'B2B products for moderation';
+COMMENT ON TABLE skus IS 'B2B product variants (SKUs)';
 
 COMMENT ON COLUMN product_moderation.json_before IS 'Product state BEFORE changes (null for new products)';
 COMMENT ON COLUMN product_moderation.json_after IS 'Current product state (GET /api/v1/products/{id} from B2B)';
@@ -86,3 +136,8 @@ COMMENT ON COLUMN product_moderation.queue_priority IS 'Queue number: 1-4 (calcu
 COMMENT ON COLUMN product_moderation.status IS 'PENDING, IN_REVIEW, MODERATED, BLOCKED, HARD_BLOCKED';
 COMMENT ON COLUMN product_moderation_field_report.field_name IS 'Allowed: title, description, product_images, category, sku_name, sku_image, sku_price';
 COMMENT ON COLUMN product_moderation_field_report.sku_id IS 'Specific SKU ID (null = issue with product, not SKU)';
+COMMENT ON COLUMN products.blocking_reason IS 'Blocking reason: {title, description}';
+COMMENT ON COLUMN products.field_reports IS 'Field reports: [{field, message, value, suggestion}]';
+COMMENT ON COLUMN products.status IS 'DRAFT, ON_MODERATION, MODERATED, BLOCKED, HARD_BLOCKED';
+COMMENT ON COLUMN skus.cost_price IS 'SKU cost price (optional)';
+COMMENT ON COLUMN skus.reserved_quantity IS 'Reserved stock quantity';

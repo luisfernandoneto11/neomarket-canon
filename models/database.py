@@ -14,6 +14,7 @@ from .base import Base
 from .product_moderation import ProductModeration
 from .product_moderation_field_report import ProductModerationFieldReport
 from .product_blocking_reasons import ProductBlockingReason, get_seed_blocking_reasons
+from .product import Product, SKU
 
 # Database URL - should be configured via environment variable
 DATABASE_URL = "postgresql+asyncpg://user:password@localhost:5432/neomarket_moderation"

@@ -1,0 +1,130 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\tests
+configfile: pytest.ini
+plugins: anyio-4.14.0, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 14 items
+
+tests\test_b2c_product_card.py::TestProductCardReturnsFullData::test_product_card_returns_full_data_with_skus FAILED [  7%]
+tests\test_b2c_product_card.py::TestSecuritySensitiveFields::test_cost_price_absent_in_response FAILED [ 14%]
+tests\test_b2c_product_card.py::TestSecuritySensitiveFields::test_reserved_quantity_absent_in_response FAILED [ 21%]
+tests\test_b2c_product_card.py::TestVisibilityValidation::test_blocked_product_returns_404 FAILED [ 28%]
+tests\test_b2c_product_card.py::TestVisibilityValidation::test_deleted_product_returns_404 PASSED [ 35%]
+tests\test_b2c_product_card.py::TestVisibilityValidation::test_non_moderated_product_returns_404 PASSED [ 42%]
+tests\test_b2c_product_card.py::TestStockStatus::test_sku_without_stock_shown_as_unavailable FAILED [ 50%]
+tests\test_b2c_product_card.py::TestB2BFailureHandling::test_b2b_service_unavailable_returns_502 FAILED [ 57%]
+tests\test_b2c_product_card.py::TestProductCardServiceUnit::test_validate_visibility_rejects_non_moderated PASSED [ 64%]
+tests\test_b2c_product_card.py::TestProductCardServiceUnit::test_validate_visibility_rejects_deleted PASSED [ 71%]
+tests\test_b2c_product_card.py::TestProductCardServiceUnit::test_validate_visibility_rejects_blocked PASSED [ 78%]
+tests\test_b2c_product_card.py::TestProductCardServiceUnit::test_validate_visibility_accepts_valid PASSED [ 85%]
+tests\test_b2c_product_card.py::TestProductCardServiceUnit::test_build_sku_card_strips_sensitive_fields PASSED [ 92%]
+tests\test_b2c_product_card.py::TestProductCardServiceUnit::test_build_sku_card_calculates_in_stock_false PASSED [100%]
+
+================================== FAILURES ===================================
+_ TestProductCardReturnsFullData.test_product_card_returns_full_data_with_skus _
+tests\test_b2c_product_card.py:159: in test_product_card_returns_full_data_with_skus
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_______ TestSecuritySensitiveFields.test_cost_price_absent_in_response ________
+tests\test_b2c_product_card.py:217: in test_cost_price_absent_in_response
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+____ TestSecuritySensitiveFields.test_reserved_quantity_absent_in_response ____
+tests\test_b2c_product_card.py:246: in test_reserved_quantity_absent_in_response
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+__________ TestVisibilityValidation.test_blocked_product_returns_404 __________
+tests\test_b2c_product_card.py:285: in test_blocked_product_returns_404
+    assert data["code"] == 404
+           ^^^^^^^^^^^^
+E   KeyError: 'code'
+_________ TestStockStatus.test_sku_without_stock_shown_as_unavailable _________
+tests\test_b2c_product_card.py:361: in test_sku_without_stock_shown_as_unavailable
+    assert response.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_______ TestB2BFailureHandling.test_b2b_service_unavailable_returns_502 _______
+tests\test_b2c_product_card.py:400: in test_b2b_service_unavailable_returns_502
+    assert response.status_code == 502
+E   assert 404 == 502
+E    +  where 404 = <Response [404 Not Found]>.status_code
+============================== warnings summary ===============================
+schemas\b2b_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUResponse(BaseModel):
+
+schemas\b2b_schemas.py:139
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\b2b_schemas.py:139: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductResponse(BaseModel):
+
+schemas\moderation_event_schemas.py:54
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:54: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventRequest(BaseModel):
+
+schemas\moderation_event_schemas.py:161
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\moderation_event_schemas.py:161: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ModerationEventResponse(BaseModel):
+
+..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12
+  C:\Users\Пользователь\AppData\Local\Programs\Python\Python313\Lib\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+apis\moderation\events.py:50
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\apis\moderation\events.py:50: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductEventRequest(BaseModel):
+
+schemas\catalog_schemas.py:14
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:14: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:51
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:51: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCatalogResponse(BaseModel):
+
+schemas\catalog_schemas.py:88
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_schemas.py:88: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CatalogResponse(BaseModel):
+
+schemas\catalog_filters_schemas.py:59
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\catalog_filters_schemas.py:59: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductListItem(BaseModel):
+
+schemas\product_card_schemas.py:15
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\product_card_schemas.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductImageResponse(BaseModel):
+
+schemas\product_card_schemas.py:31
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\product_card_schemas.py:31: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CharacteristicResponse(BaseModel):
+
+schemas\product_card_schemas.py:47
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\product_card_schemas.py:47: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class SKUCardResponse(BaseModel):
+
+schemas\product_card_schemas.py:92
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\product_card_schemas.py:92: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class CategoryResponse(BaseModel):
+
+schemas\product_card_schemas.py:108
+  C:\Users\Пользователь\Downloads\neomarket-canon-US-MOD-01\neomarket-canon-US-MOD-01\schemas\product_card_schemas.py:108: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ProductCardResponse(BaseModel):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_b2c_product_card.py::TestProductCardReturnsFullData::test_product_card_returns_full_data_with_skus - assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2c_product_card.py::TestSecuritySensitiveFields::test_cost_price_absent_in_response - assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2c_product_card.py::TestSecuritySensitiveFields::test_reserved_quantity_absent_in_response - assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2c_product_card.py::TestVisibilityValidation::test_blocked_product_returns_404 - KeyError: 'code'
+FAILED tests\test_b2c_product_card.py::TestStockStatus::test_sku_without_stock_shown_as_unavailable - assert 404 == 200
+ +  where 404 = <Response [404 Not Found]>.status_code
+FAILED tests\test_b2c_product_card.py::TestB2BFailureHandling::test_b2b_service_unavailable_returns_502 - assert 404 == 502
+ +  where 404 = <Response [404 Not Found]>.status_code
+================== 6 failed, 8 passed, 15 warnings in 2.76s ===================

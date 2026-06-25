@@ -250,3 +250,28 @@ class B2BClient:
             products.append(result)
 
         return products
+
+    async def reserve(self, request) -> Dict[str, Any]:
+        """
+        Reserve stock for items (all-or-nothing).
+
+        Calls B2B `POST /api/v1/reserve` to reserve stock for all items.
+        If any item fails to reserve, the entire reservation fails.
+
+        Args:
+            request: ReserveRequest with idempotency_key and items.
+
+        Returns:
+            Dict with reservation result.
+
+        Raises:
+            B2BClientError: If reservation fails (409 Conflict).
+            B2BServiceUnavailableError: If B2B service is down.
+        """
+        response = await self._request_with_retry(
+            method="POST",
+            path="/api/v1/reserve",
+            json_data=request.model_dump(mode="json"),
+        )
+
+        return response

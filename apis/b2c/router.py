@@ -8,8 +8,10 @@ from fastapi import APIRouter
 
 from .cart import router as cart_router
 from .catalog import router as catalog_router
+from .orders import router as orders_router
 
 router = APIRouter(prefix="/api/v1/b2c", tags=["B2C"])
 
 router.include_router(cart_router)
 router.include_router(catalog_router)
+router.include_router(orders_router)

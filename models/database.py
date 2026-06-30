@@ -74,7 +74,11 @@ async def seed_blocking_reasons(session: AsyncSession) -> None:
     if existing is None:
         # No data exists, seed it
         seed_data = get_seed_blocking_reasons()
-        session.add_all(seed_data)
+        for reason in seed_data:
+            # Double check by ID to prevent IntegrityError
+            res = await session.execute(select(ProductBlockingReason).where(ProductBlockingReason.id == reason.id))
+            if res.scalars().first() is None:
+                session.add(reason)
         await session.commit()
 
 

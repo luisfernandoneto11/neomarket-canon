@@ -20,6 +20,45 @@ from sqlalchemy import (
     UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.types import TypeDecorator, CHAR, JSON
+import uuid
+
+class GUID(TypeDecorator):
+    """Platform-independent GUID type.
+    Uses PostgreSQL's UUID type, otherwise uses CHAR(32), storing as string without hyphens.
+    """
+    impl = CHAR
+    cache_ok = True
+
+    def load_dialect_impl(self, dialect):
+        if dialect.name == 'postgresql':
+            return dialect.type_descriptor(UUID())
+        else:
+            return dialect.type_descriptor(CHAR(36))
+
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return value
+        elif dialect.name == 'postgresql':
+            return str(value)
+        else:
+            if not isinstance(value, uuid.UUID):
+                return str(uuid.UUID(value))
+            else:
+                return str(value)
+
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return value
+        else:
+            if not isinstance(value, uuid.UUID):
+                return uuid.UUID(value)
+            else:
+                return value
+
+def get_json_type():
+    return JSON
+
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.sql import func
 
@@ -50,7 +89,7 @@ class ProductModeration(Base):
     
     # Primary key
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         primary_key=True,
         default=uuid.uuid4,
         comment="Идентификатор записи"
@@ -58,7 +97,7 @@ class ProductModeration(Base):
     
     # Idempotency key for deduplication
     idempotency_key: Mapped[Optional[uuid.UUID]] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         nullable=True,
         unique=True,
         comment="Chave de idempotência para deduplicação de eventos"
@@ -66,13 +105,13 @@ class ProductModeration(Base):
     
     # Product and seller references
     product_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         nullable=False,
         comment="ID товара в B2B (one-to-one)"
     )
     
     seller_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         nullable=False,
         comment="ID продавца (из события B2B)"
     )
@@ -95,20 +134,20 @@ class ProductModeration(Base):
     
     # Product data snapshots
     json_before: Mapped[Optional[dict]] = mapped_column(
-        JSONB,
+        get_json_type(),
         nullable=True,
         comment="Состояние товара ДО изменений (null для новых)"
     )
     
     json_after: Mapped[dict] = mapped_column(
-        JSONB,
+        get_json_type(),
         nullable=False,
         comment="Текущее состояние товара (GET /api/v1/products/{id} из B2B)"
     )
     
     # Blocking information
     blocking_reason_id: Mapped[Optional[uuid.UUID]] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         ForeignKey("product_blocking_reasons.id", ondelete="SET NULL"),
         nullable=True,
         comment="Причина блокировки"
@@ -116,7 +155,7 @@ class ProductModeration(Base):
     
     # Moderator information
     moderator_id: Mapped[Optional[uuid.UUID]] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         nullable=True,
         comment="ID модератора, взявшего карточку (get-next) или принявшего решение"
     )

@@ -10,6 +10,7 @@ from typing import List
 
 from sqlalchemy import Column, String, Boolean
 from sqlalchemy.dialects.postgresql import UUID
+from models.product_moderation import GUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .base import Base
@@ -27,7 +28,7 @@ class ProductBlockingReason(Base):
     
     # Primary key
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         primary_key=True,
         default=uuid.uuid4,
         comment="Идентификатор"

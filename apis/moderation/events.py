@@ -55,7 +55,7 @@ class ProductEventRequest(BaseModel):
     event_type: str = Field(
         ...,
         description="Event type: PRODUCT_CREATED, PRODUCT_EDITED, or PRODUCT_DELETED",
-        regex="^(PRODUCT_CREATED|PRODUCT_EDITED|PRODUCT_DELETED)$",
+        pattern="^(PRODUCT_CREATED|PRODUCT_EDITED|PRODUCT_DELETED)$",
     )
     occurred_at: datetime = Field(..., description="Event timestamp in ISO8601 format")
     idempotency_key: uuid.UUID = Field(..., description="Unique key for idempotency")
@@ -97,7 +97,7 @@ class ProductEventResponse(BaseModel):
 
 # Authentication Dependency
 async def verify_service_key(
-    x_service_key: str = Header(..., alias="X-Service-Key"),
+    x_service_key: Optional[str] = Header(None, alias="X-Service-Key"),
 ) -> str:
     """
     Verify the X-Service-Key header for service-to-service authentication.
@@ -109,9 +109,9 @@ async def verify_service_key(
         Validated service key.
         
     Raises:
-        HTTPException: If service key is invalid.
+        HTTPException: If service key is invalid or missing.
     """
-    if x_service_key != B2B_SERVICE_KEY:
+    if x_service_key is None or x_service_key != B2B_SERVICE_KEY:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid service key",

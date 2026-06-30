@@ -48,6 +48,11 @@ async def setup_database():
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     
+    # Seed data for tests
+    async with test_session_factory() as session:
+        from models.database import seed_blocking_reasons
+        await seed_blocking_reasons(session)
+    
     yield
     
     async with test_engine.begin() as conn:
@@ -66,11 +71,16 @@ async def db_session(setup_database) -> AsyncGenerator[AsyncSession, None]:
 @pytest_asyncio.fixture
 async def blocking_reason(db_session: AsyncSession) -> ProductBlockingReason:
     """Create a blocking reason for tests."""
+    from sqlalchemy import select
     seed_reasons = get_seed_blocking_reasons()
-    blocking_reason = seed_reasons[0]  # Use first seed reason
-    db_session.add(blocking_reason)
-    await db_session.commit()
-    return blocking_reason
+    first_reason_id = seed_reasons[0].id
+    result = await db_session.execute(select(ProductBlockingReason).where(ProductBlockingReason.id == first_reason_id))
+    reason = result.scalars().first()
+    if reason is None:
+        reason = seed_reasons[0]
+        db_session.add(reason)
+        await db_session.commit()
+    return reason
 
 
 @pytest_asyncio.fixture
@@ -185,7 +195,7 @@ def service_key():
 
 
 @pytest_asyncio.fixture
-async def client(service_key: str) -> AsyncGenerator[AsyncClient, None]:
+async def client(service_key: str, setup_database) -> AsyncGenerator[AsyncClient, None]:
     """Create test HTTP client."""
     from fastapi import FastAPI, Request, status
     from fastapi.responses import JSONResponse
@@ -203,6 +213,15 @@ async def client(service_key: str) -> AsyncGenerator[AsyncClient, None]:
     
     app.include_router(router)
     
+    # Override database session for testing
+    from models.database import get_async_session
+    
+    async def override_get_async_session():
+        async with test_session_factory() as session:
+            yield session
+        
+    app.dependency_overrides[get_async_session] = override_get_async_session
+    
     # Override the service key for testing
     import apis.moderation.events as events_module
     original_key = events_module.B2B_SERVICE_KEY
@@ -212,5 +231,6 @@ async def client(service_key: str) -> AsyncGenerator[AsyncClient, None]:
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         yield client
     
-    # Restore original key
+    # Restore original key and dependencies
     events_module.B2B_SERVICE_KEY = original_key
+    app.dependency_overrides.clear()

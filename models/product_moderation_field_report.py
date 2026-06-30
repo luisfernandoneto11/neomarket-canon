@@ -18,6 +18,7 @@ from sqlalchemy import (
     CheckConstraint,
 )
 from sqlalchemy.dialects.postgresql import UUID
+from models.product_moderation import GUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.sql import func
 
@@ -43,7 +44,7 @@ class ProductModerationFieldReport(Base):
     
     # Primary key
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         primary_key=True,
         default=uuid.uuid4,
         comment="Идентификатор"
@@ -51,7 +52,7 @@ class ProductModerationFieldReport(Base):
     
     # Reference to moderation record
     product_moderation_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         ForeignKey("product_moderation.id", ondelete="CASCADE"),
         nullable=False,
         comment="Ссылка на запись модерации"
@@ -66,7 +67,7 @@ class ProductModerationFieldReport(Base):
     
     # Optional SKU reference (null = issue with product, not SKU)
     sku_id: Mapped[Optional[uuid.UUID]] = mapped_column(
-        UUID(as_uuid=True),
+        GUID(),
         nullable=True,
         comment="ID конкретного SKU (null = замечание к товару, не к SKU)"
     )

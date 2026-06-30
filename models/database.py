@@ -17,7 +17,7 @@ from .product_moderation_field_report import ProductModerationFieldReport
 from .product_blocking_reasons import ProductBlockingReason, get_seed_blocking_reasons
 
 # Database URL - should be configured via environment variable
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@localhost:5432/neomarket_moderation")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./neomarket_moderation.db")
 
 # Create async engine
 if DATABASE_URL.startswith("sqlite"):

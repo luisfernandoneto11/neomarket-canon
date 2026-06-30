@@ -5,6 +5,7 @@ This module provides database connection setup, session management,
 and utility functions for working with the database.
 """
 
+import os
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -16,16 +17,22 @@ from .product_moderation_field_report import ProductModerationFieldReport
 from .product_blocking_reasons import ProductBlockingReason, get_seed_blocking_reasons
 
 # Database URL - should be configured via environment variable
-DATABASE_URL = "postgresql+asyncpg://user:password@localhost:5432/neomarket_moderation"
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://user:password@localhost:5432/neomarket_moderation")
 
 # Create async engine
-engine = create_async_engine(
-    DATABASE_URL,
-    echo=False,  # Set to True for SQL logging in development
-    pool_size=10,
-    max_overflow=20,
-    pool_pre_ping=True,
-)
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_async_engine(
+        DATABASE_URL,
+        echo=False,
+    )
+else:
+    engine = create_async_engine(
+        DATABASE_URL,
+        echo=False,
+        pool_size=10,
+        max_overflow=20,
+        pool_pre_ping=True,
+    )
 
 # Create async session factory
 async_session_factory = async_sessionmaker(

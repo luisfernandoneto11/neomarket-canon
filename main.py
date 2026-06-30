@@ -1,9 +1,30 @@
 import uvicorn
+import os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from apis.moderation.events import router as events_router
-from models.database import init_db
+from models.database import init_db, engine
 
-app = FastAPI(title="NeoMarket Moderation Service")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Initialize database
+    print("Iniciando servidor e verificando banco de dados...")
+    try:
+        await init_db()
+        print("Banco de dados verificado/inicializado.")
+    except Exception as e:
+        print(f"Aviso na inicialização do DB: {e}")
+    
+    yield
+    
+    # Shutdown: Close connections
+    print("Encerrando servidor...")
+    await engine.dispose()
+
+app = FastAPI(
+    title="NeoMarket Moderation Service",
+    lifespan=lifespan
+)
 
 # Include routers
 app.include_router(events_router)
@@ -12,18 +33,6 @@ app.include_router(events_router)
 async def health_check():
     return {"status": "healthy"}
 
-@app.on_event("startup")
-async def startup_event():
-    # Initialize database tables
-    # Note: In a real production environment, we would use migrations (Alembic)
-    # For this check, we'll try to initialize the DB.
-    # We use a try-except because the default DATABASE_URL might not be accessible
-    try:
-        await init_db()
-        print("Database initialized successfully")
-    except Exception as e:
-        print(f"Database initialization failed: {e}")
-        print("Continuing without database initialization (using existing DB or mock)")
-
 if __name__ == "__main__":
-    uvicorn.run("main.py:app", host="0.0.0.0", port=8000, reload=False)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)

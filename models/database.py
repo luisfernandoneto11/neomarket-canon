@@ -62,6 +62,12 @@ async def init_db() -> None:
     
     Creates all tables defined in the models.
     """
+    # Import all models here to ensure they are registered with Base.metadata
+    # before calling create_all()
+    from .product_moderation import ProductModeration
+    from .product_moderation_field_report import ProductModerationFieldReport
+    from .product_blocking_reasons import ProductBlockingReason
+    
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
